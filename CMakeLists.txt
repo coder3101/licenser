@@ -1,12 +1,12 @@
-cmake_minimum_required(3.15)
+cmake_minimum_required(VERSION 3.15)
 
-project(licenser 
-        VERSION 0.1
-        LANGUAGE CXX)
-
-add_executable(licenser "")
+project(licenser VERSION 0.1)
+add_executable(licenser src/main.cc)
 
 set(DEFAULT_CMAKE_BUILD_TYPE Release)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+option(CODE_COVERAGE "Enable code coverage on tests" OFF)
 
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -56,4 +56,34 @@ else()
   endif()
 endif()
 
-# Libraries
+# Header only Libraries
+# Lyra and Catch2
+include_directories(third_party/Lyra/include)
+include_directories(third_party/Catch2/include)
+
+# Licenser Headers
+include_directories(src)
+include_directories(src/licenses/include)
+include_directories(src/preprocessor/include)
+
+
+
+# Building Static Libs
+add_library(liblicenses 
+            src/licenses/src/GPLv3.cc 
+            src/licenses/src/License.cc
+            )
+
+# Static Modules of licenser
+target_link_libraries(licenser PRIVATE liblicenses)
+
+# Testing
+enable_testing()
+
+if (CODE_COVERAGE AND (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU))
+  set(CMAKE_CXX_FLAGS "-O0 -g --coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "--coverage")
+  message(STATUS "Coverage report will be generated")
+endif()
+
+# add_test(name_of_target test/<name of test>.cc)
