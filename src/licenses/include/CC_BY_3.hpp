@@ -18,22 +18,12 @@
  */
 
 #pragma once
-#include <string>
-#include "LicenseType.hpp"
-
-namespace licenser::licenses {
-class License {
+#include "License.hpp"
+namespace licenser::lisenses {
+class CC_BY_3_ final : public licenser::licenses::License {
  public:
-  License(LicenseType t);
-  virtual inline std::string body_to_string() const = 0;
-
-  virtual inline std::string header_to_string() const = 0;
-
-  inline LicenseType enum_type() const noexcept;
-
-  inline std::string license_name() const noexcept;
-
- protected:
-  LicenseType typeLicense;
+  CC_BY_3_();
+  std::string body_to_string() const override;
+  std::string header_to_string() const override;
 };
-}  // namespace licenser::licenses
+}  // namespace licenser::lisenses
