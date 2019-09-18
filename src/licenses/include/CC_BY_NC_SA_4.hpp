@@ -19,8 +19,8 @@
 
 #pragma once
 #include "License.hpp"
-namespace licenser::lisenses {
-class CC_BY_NC_SA_4_ final : public licenser::licenses::License {
+namespace licenser::licenses {
+class CC_BY_NC_SA_4_ final : public License {
  public:
   CC_BY_NC_SA_4_();
   std::string body_to_string() const override;

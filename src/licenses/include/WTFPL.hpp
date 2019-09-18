@@ -19,8 +19,8 @@
 
 #pragma once
 #include "License.hpp"
-namespace licenser::lisenses {
-class WTFPL_ final : public licenser::licenses::License {
+namespace licenser::licenses {
+class WTFPL_ final : public License {
  public:
   WTFPL_();
   std::string body_to_string() const override;

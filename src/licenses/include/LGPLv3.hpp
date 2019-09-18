@@ -20,8 +20,8 @@
 
 #pragma once
 #include "License.hpp"
-namespace licenser::lisenses {
-class LGPLv3_ final : public licenser::licenses::License {
+namespace licenser::licenses {
+class LGPLv3_ final : public License {
  public:
   LGPLv3_();
   std::string body_to_string() const override;

@@ -17,13 +17,20 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#include "License.hpp"
+#include "LGPLv3.hpp"
+
 namespace licenser::licenses {
-class CC_BY_NC_ND_3_ final : public License {
- public:
-  CC_BY_NC_ND_3_();
-  std::string body_to_string() const override;
-  std::string header_to_string() const override;
-};
-}  // namespace licenser::lisenses
+LGPLv3_::LGPLv3_() : License(LicenseType::LGPLv3) {}
+
+std::string LGPLv3_::body_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+
+std::string LGPLv3_::header_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+}  // namespace licenser::licenses

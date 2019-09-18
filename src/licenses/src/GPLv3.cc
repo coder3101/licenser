@@ -19,8 +19,8 @@
 
 #include "GPLv3.hpp"
 
-namespace licenser::lisenses {
-GPLv3_::GPLv3_() : License(licenses::LicenseType::GPLv3){};
+namespace licenser::licenses {
+GPLv3_::GPLv3_() : License(LicenseType::GPLv3){};
 
 std::string GPLv3_::body_to_string() const {
   return R"i_like_naruto(

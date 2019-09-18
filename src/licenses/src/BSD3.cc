@@ -17,13 +17,20 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#include "License.hpp"
+#include "BSD3.hpp"
+
 namespace licenser::licenses {
-class CC_BY_NC_ND_3_ final : public License {
- public:
-  CC_BY_NC_ND_3_();
-  std::string body_to_string() const override;
-  std::string header_to_string() const override;
-};
-}  // namespace licenser::lisenses
+BSD3_::BSD3_() : License(LicenseType::BSD3) {}
+
+std::string BSD3_::body_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+
+std::string BSD3_::header_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+}  // namespace licenser::licenses

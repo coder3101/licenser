@@ -19,8 +19,8 @@
 
 #pragma once
 #include "License.hpp"
-namespace licenser::lisenses {
-class GPLv3_ final : public licenser::licenses::License {
+namespace licenser::licenses {
+class GPLv3_ final : public License {
  public:
   GPLv3_();
   std::string body_to_string() const override;

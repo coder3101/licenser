@@ -17,13 +17,20 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#include "License.hpp"
+#include "WTFPL.hpp"
+
 namespace licenser::licenses {
-class CC_BY_NC_ND_3_ final : public License {
- public:
-  CC_BY_NC_ND_3_();
-  std::string body_to_string() const override;
-  std::string header_to_string() const override;
-};
-}  // namespace licenser::lisenses
+WTFPL_::WTFPL_() : License(LicenseType::WTFPL) {}
+
+std::string WTFPL_::body_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+
+std::string WTFPL_::header_to_string() const {
+  return R"i_like_naruto(
+
+        )i_like_naruto";
+}
+}  // namespace licenser::licenses
