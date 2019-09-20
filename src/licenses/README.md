@@ -23,7 +23,7 @@ Following is the complete list of placeholder
 If your License needs to use these placeholders, please place these into `%` and preprocessor will handle it for you directly.
 
 Example :
-```
+```cpp
 
 class MyNewAwesomeLicense final : public License{
     ...
