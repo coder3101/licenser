@@ -33,6 +33,8 @@ class License {
 
   inline std::string license_name() const noexcept;
 
+  virtual inline std::string name() const = 0;
+
  protected:
   LicenseType typeLicense;
 };

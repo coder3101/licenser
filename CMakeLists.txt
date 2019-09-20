@@ -98,6 +98,10 @@ add_library(licenses
             src/licenses/src/ZLIB.cc
             )
 
+set_property(TARGET licenses PROPERTY CXX_STANDARD 17)
+set_property(TARGET licenses PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET licenses PROPERTY CXX_EXTENSIONS OFF)
+
 # Static Modules of licenser
 target_link_libraries(licenser PRIVATE licenses)
 

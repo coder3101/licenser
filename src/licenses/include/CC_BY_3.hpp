@@ -25,5 +25,6 @@ class CC_BY_3_ final : public License {
   CC_BY_3_();
   std::string body_to_string() const override;
   std::string header_to_string() const override;
+  std::string name() const override;
 };
-}  // namespace licenser::lisenses
+}  // namespace licenser::licenses

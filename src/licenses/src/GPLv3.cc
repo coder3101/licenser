@@ -724,4 +724,8 @@ along with %PROJECT%.  If not, see <http://www.gnu.org/licenses/>.
 )i_like_naruto";
 }
 
-}  // namespace licenser::lisenses
+std::string GPLv3_::name() const {
+  return "GNU General Public License version 3";
+}
+
+}  // namespace licenser::licenses
