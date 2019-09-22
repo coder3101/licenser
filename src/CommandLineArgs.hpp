@@ -18,11 +18,17 @@
  */
 
 #pragma once
+#include <string>
 namespace licenser {
 struct ApplicationArgs {
   ApplicationArgs() : showHelp(false), initiate(false), update(false) {}
   bool showHelp;
   bool initiate;
   bool update;
+  std::string author;
+  std::string email;
+  unsigned int year;
+  std::string license;
+  std::string project;
 };
 }  // namespace licenser

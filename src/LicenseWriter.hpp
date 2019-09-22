@@ -18,25 +18,32 @@
  */
 
 #pragma once
-#include <string>
+#include <fstream>
+#include <memory>
+#include <utility>
 #include "LicenseType.hpp"
-
-namespace licenser::licenses {
-class License {
+#include "all_license.hpp"
+namespace licenser {
+class LicenseWriter {
  public:
-  License(LicenseType t);
-  virtual std::string body_to_string() const = 0;
+  LicenseWriter(std::unique_ptr<licenses::License> type,
+                std::string name = "LICENSE");
 
-  virtual std::string header_to_string() const = 0;
+  LicenseWriter(const LicenseWriter&) = delete;
 
-  inline LicenseType enum_type() const noexcept;
-  virtual std::string name() const = 0;
+  LicenseWriter& operator=(const LicenseWriter&) = delete;
 
-  static std::string name_from_enum(LicenseType type) noexcept;
+  void write();
 
-  virtual ~License() = default;
+  std::string cwd() const;
 
- protected:
-  LicenseType typeLicense;
+  std::string get_name() const noexcept;
+
+  ~LicenseWriter();
+
+ private:
+  std::string name;
+  std::unique_ptr<licenses::License> type;
+  std::ofstream stream;
 };
-}  // namespace licenser::licenses
+}  // namespace licenser

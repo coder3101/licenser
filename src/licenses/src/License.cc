@@ -24,7 +24,7 @@ License::License(LicenseType t) : typeLicense(t){};
 
 inline LicenseType License::enum_type() const noexcept { return typeLicense; }
 
-inline std::string License::license_name() const noexcept {
+std::string License::name_from_enum(LicenseType typeLicense) noexcept {
   switch (typeLicense) {
     case AGPLv3:
       return "GNU Affero General Public License version 3";
@@ -78,6 +78,8 @@ inline std::string License::license_name() const noexcept {
       return "zlib License";
     case CUSTOM:
       return "Custom";
+    default:
+      return "Unknown";
   }
 }
 }  // namespace licenser::licenses

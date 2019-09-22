@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2019
+ * Copyright (C) 2019 Ashar ashar786khan@gmail.com
  *
  * This file is part of licenser.
  *
@@ -18,9 +18,10 @@
  */
 
 #include <CommandLineArgs.hpp>
-#include <GPLv3.hpp>
 #include <iostream>
 #include <lyra/lyra.hpp>
+#include "all_license.hpp"
+#include "LicenseWriter.hpp"
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
@@ -40,7 +41,8 @@ int main(int argc, const char** argv) {
   } else if (args.showHelp) {
     std::cout << cli;
   } else if (args.initiate) {
-    // licenser init
+    licenser::LicenseWriter writer(std::make_unique<licenser::licenses::MIT_>());
+    writer.write();
   } else if (args.update) {
     // licenser update
   } else {
