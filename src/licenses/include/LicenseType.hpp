@@ -74,6 +74,7 @@ enum LicenseType {
   CCO1,
   WTFPL,
   ZLIB,
-  CUSTOM
+  CUSTOM,
+  UNKNOWN
 };
 }

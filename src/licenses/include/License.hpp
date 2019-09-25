@@ -18,6 +18,8 @@
  */
 
 #pragma once
+
+#include <memory>
 #include <string>
 #include "LicenseType.hpp"
 
@@ -33,6 +35,11 @@ class License {
   virtual std::string name() const = 0;
 
   static std::string name_from_enum(LicenseType type) noexcept;
+
+  static LicenseType enum_from_name(std::string s) noexcept;
+
+  static std::unique_ptr<License> make_license(
+      LicenseType type, std::unique_ptr<License> custom = nullptr);
 
   virtual ~License() = default;
 

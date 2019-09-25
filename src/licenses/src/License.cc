@@ -18,6 +18,7 @@
  */
 
 #include "License.hpp"
+#include "all_license.hpp"
 
 namespace licenser::licenses {
 License::License(LicenseType t) : typeLicense(t){};
@@ -78,8 +79,128 @@ std::string License::name_from_enum(LicenseType typeLicense) noexcept {
       return "zlib License";
     case CUSTOM:
       return "Custom";
-    default:
+    default: // Unknown
       return "Unknown";
   }
 }
+
+std::unique_ptr<License> License::make_license(
+    LicenseType type, std::unique_ptr<License> custom) {
+  switch (type) {
+    case AGPLv3:
+      return std::make_unique<AGPLv3_>();
+    case AL2:
+      return std::make_unique<AL2_>();
+    case BSD2:
+      return std::make_unique<BSD2_>();
+    case BSD3:
+      return std::make_unique<BSD3_>();
+    case BSL1:
+      return std::make_unique<BSL1_>();
+    case CC_BY_3:
+      return std::make_unique<CC_BY_3_>();
+    case CC_BY_4:
+      return std::make_unique<CC_BY_4_>();
+    case CC_BY_NC_3:
+      return std::make_unique<CC_BY_NC_3_>();
+    case CC_BY_NC_4:
+      return std::make_unique<CC_BY_NC_4_>();
+    case CC_BY_NC_ND_3:
+      return std::make_unique<CC_BY_NC_ND_3_>();
+    case CC_BY_NC_ND_4:
+      return std::make_unique<CC_BY_NC_ND_4_>();
+    case CC_BY_NC_SA_3:
+      return std::make_unique<CC_BY_NC_SA_3_>();
+    case CC_BY_NC_SA_4:
+      return std::make_unique<CC_BY_NC_SA_4_>();
+    case CC_BY_ND_3:
+      return std::make_unique<CC_BY_ND_3_>();
+    case CC_BY_ND_4:
+      return std::make_unique<CC_BY_ND_4_>();
+    case CC_BY_SA_3:
+      return std::make_unique<CC_BY_SA_3_>();
+    case CC_BY_SA_4:
+      return std::make_unique<CC_BY_SA_4_>();
+    case CCO1:
+      return std::make_unique<CC0_1_>();
+    case GPLv2:
+      return std::make_unique<GPLv2_>();
+    case GPLv3:
+      return std::make_unique<GPLv3_>();
+    case LGPLv3:
+      return std::make_unique<LGPLv3_>();
+    case MIT:
+      return std::make_unique<MIT_>();
+    case MPLv2:
+      return std::make_unique<MPLv2_>();
+    case WTFPL:
+      return std::make_unique<WTFPL_>();
+    case ZLIB:
+      return std::make_unique<ZLIB_>();
+    case CUSTOM:
+      return custom;
+    default: // Unknown
+      return nullptr;
+  }
+}
+
+LicenseType License::enum_from_name(std::string shortName) noexcept {
+  for (auto &e : shortName)
+    if (e >= 'a' && e <= 'z') e = e - 32;
+  if (shortName == "AGPLV3")
+    return AGPLv3;
+  else if (shortName == "AL2")
+    return AL2;
+  else if (shortName == "BSD2")
+    return BSD2;
+  else if (shortName == "BSD3")
+    return BSD3;
+  else if (shortName == "BSL1")
+    return BSL1;
+  else if (shortName == "CC_BY_3")
+    return CC_BY_3;
+  else if (shortName == "CC_BY_4")
+    return CC_BY_4;
+  else if (shortName == "CC_BY_NC_3")
+    return CC_BY_NC_3;
+  else if (shortName == "CC_BY_NC_4")
+    return CC_BY_NC_4;
+  else if (shortName == "CC_BY_NC_ND_3")
+    return CC_BY_NC_ND_3;
+  else if (shortName == "CC_BY_NC_ND_4")
+    return CC_BY_NC_ND_4;
+  else if (shortName == "CC_BY_NC_SA_3")
+    return CC_BY_NC_SA_3;
+  else if (shortName == "CC_BY_NC_SA_4")
+    return CC_BY_NC_SA_4;
+  else if (shortName == "CC_BY_ND_3")
+    return CC_BY_ND_3;
+  else if (shortName == "CC_BY_ND_4")
+    return CC_BY_ND_4;
+  else if (shortName == "CC_BY_SA_3")
+    return CC_BY_SA_3;
+  else if (shortName == "CC_BY_SA_4")
+    return CC_BY_SA_4;
+  else if (shortName == "CC01")
+    return CCO1;
+  else if (shortName == "GPLV2")
+    return GPLv2;
+  else if (shortName == "GPLV3")
+    return GPLv3;
+  else if (shortName == "LGPLV3")
+    return LGPLv3;
+  else if (shortName == "MIT")
+    return MIT;
+  else if (shortName == "MPLV2")
+    return MPLv2;
+  else if (shortName == "WTFPL")
+    return WTFPL;
+  else if (shortName == "ZLIB")
+    return ZLIB;
+  else if (shortName == "CUSTOM")
+    return CUSTOM;
+  else
+    return UNKNOWN;
+}
+
 }  // namespace licenser::licenses
