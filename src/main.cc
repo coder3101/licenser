@@ -20,8 +20,8 @@
 #include <CommandLineArgs.hpp>
 #include <iostream>
 #include <lyra/lyra.hpp>
-#include "all_license.hpp"
 #include "LicenseWriter.hpp"
+#include "all_license.hpp"
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
@@ -30,7 +30,10 @@ int main(int argc, const char** argv) {
              lyra::opt(args.initiate)["-i"]["--init"](
                  "Initiates a Simple License Configuration") |
              lyra::opt(args.update)["-u"]["--update"](
-                 "Updates Source files with configuration changes");
+                 "Updates Source files with configuration changes") |
+             lyra::opt(args.license, "license")["-l"]["--license"](
+                 "The short name for license separated by underscore in case "
+                 "of multiwords");
 
   auto result = cli.parse({argc, argv});
 
@@ -41,8 +44,14 @@ int main(int argc, const char** argv) {
   } else if (args.showHelp) {
     std::cout << cli;
   } else if (args.initiate) {
-    licenser::LicenseWriter writer(std::make_unique<licenser::licenses::MIT_>());
+    using namespace licenser::licenses;
+
+    auto license_enum = License::enum_from_name(args.license);
+    auto license_ptr = License::make_license(license_enum);
+    licenser::LicenseWriter writer(std::move(license_ptr));
     writer.write();
+    std::cout << "Initiated LICENSE file in directory " << writer.cwd()
+              << std::endl;
   } else if (args.update) {
     // licenser update
   } else {

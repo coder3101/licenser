@@ -26,7 +26,9 @@ LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
                              std::string name)
     : name(name) {
   this->type = std::move(t);
-  this->stream = std::ofstream(name);
+  auto path = std::filesystem::path(cwd());
+  path.append(name);
+  this->stream = std::ofstream(path.string());
   if (!this->stream.is_open())
     throw std::runtime_error(
         "Failed to create " + name +
@@ -41,8 +43,7 @@ void LicenseWriter::write() {
 }
 
 std::string LicenseWriter::cwd() const {
-  // Todo Make a Universal Impl for getting current working directory.
-  return ".";
+  return std::filesystem::current_path().string();
 }
 
 LicenseWriter::~LicenseWriter() {

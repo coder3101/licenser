@@ -20,6 +20,7 @@
 #pragma once
 #include <fstream>
 #include <memory>
+#include <filesystem>
 #include <utility>
 #include "LicenseType.hpp"
 #include "all_license.hpp"
