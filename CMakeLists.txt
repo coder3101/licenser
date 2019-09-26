@@ -7,6 +7,7 @@ set(DEFAULT_CMAKE_BUILD_TYPE Release)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(CODE_COVERAGE "Enable code coverage on tests" OFF)
+option(MAKE_TESTS "Compiles the Tests as well" ON)
 
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -57,16 +58,16 @@ else()
 endif()
 
 # Header only Libraries
-# Lyra and Catch2
+# Lyra used by licenser
 include_directories(third_party/Lyra/include)
-include_directories(third_party/Catch2/include)
+# Catch2 Used only upon Testing
+if (MAKE_TESTS)
+  include_directories(third_party/Catch2/include)
+endif()
 
 # Licenser Headers
 include_directories(src)
 include_directories(src/licenses/include)
-include_directories(src/preprocessor/include)
-
-
 
 # Building Static Libs
 add_library(licenses 
@@ -115,12 +116,19 @@ target_link_libraries(licenser PRIVATE licenses)
 target_link_libraries(licenser PRIVATE utility)
 
 # Testing
-enable_testing()
+if(MAKE_TESTS)
+  enable_testing()
 
-if (CODE_COVERAGE AND (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU))
-  set(CMAKE_CXX_FLAGS "-O0 -g --coverage")
-  set(CMAKE_EXE_LINKER_FLAGS "--coverage")
-  message(STATUS "Coverage report will be generated")
+  if (CODE_COVERAGE AND (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU))
+    set(CMAKE_CXX_FLAGS "-O0 -g --coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "--coverage")
+    message(STATUS "Coverage report will be generated")
+  endif()
+
+  add_executable(parse_cc tests/preprocessor/parse.cc)
+  add_executable(remove_placeholder_cc tests/preprocessor/remove_placeholder.cc)
+
+  add_test(parser parse_cc)
+  add_test(placeholder remove_placeholder_cc)
+
 endif()
-
-# add_test(name_of_target test/<name of test>.cc)

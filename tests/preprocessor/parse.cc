@@ -17,20 +17,9 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#include <string>
-namespace licenser {
-struct ApplicationArgs {
-  ApplicationArgs() : showHelp(false), initiate(false), update(false) {}
-  bool showHelp;
-  bool initiate;
-  bool update;
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
-  bool ongoing_project;
-  std::string author;
-  std::string email;
-  unsigned int year;
-  std::string license;
-  std::string project;
-};
-}  // namespace licenser
+TEST_CASE("Tests Parser", "[parser]") {
+
+}

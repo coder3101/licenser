@@ -26,14 +26,43 @@
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
 
-  auto cli = lyra::help(args.showHelp) |
-             lyra::opt(args.initiate)["-i"]["--init"](
-                 "Initiates a Simple License Configuration") |
-             lyra::opt(args.update)["-u"]["--update"](
-                 "Updates Source files with configuration changes") |
-             lyra::opt(args.license, "license")["-l"]["--license"](
-                 "The short name for license separated by underscore in case "
-                 "of multiwords");
+  auto cli =
+      lyra::help(args.showHelp) |
+
+      lyra::opt(args.initiate)["-i"]["--init"](
+          "Initiates a Simple License Configuration") |
+
+      lyra::opt(args.update)["-u"]["--update"](
+          "Updates Source files with configuration changes") |
+
+      lyra::opt(args.license, "license_shortname")["-l"]["--license"](
+          "The short name for license separated by underscore in case "
+          "of multiwords")
+          .optional() |
+
+      lyra::opt(args.email, "email@domail.com")["-e"]["--email"](
+          "The email that should appear on source headers. For multiple "
+          "users you can separate them by \" , \" ")
+          .optional() |
+
+      lyra::opt(args.project, "project_name")["-p"]["--project"](
+          "The name of the project that will appear in license headers")
+          .optional() |
+
+      lyra::opt(args.year, "year")["-y"]["--year"](
+          "The starting year of the project that will appear in the license "
+          "header")
+          .optional() |
+
+      lyra::opt(args.author, "author_name")["-a"]["--author"](
+          "The author names or organization name that will be displayed in the "
+          "header. You can separate multiple by \" , \"")
+          .optional() |
+
+      lyra::opt(args.ongoing_project)["-o"]["--ongoing"](
+          "If this project is currently ongoing? This flag is used to "
+          "update the year in the Source headers.")
+          .optional();
 
   auto result = cli.parse({argc, argv});
 
@@ -53,7 +82,6 @@ int main(int argc, const char** argv) {
     std::cout << "Initiated LICENSE file in directory " << writer.cwd()
               << std::endl;
   } else if (args.update) {
-    // licenser update
   } else {
     std::cout << cli;
   }
