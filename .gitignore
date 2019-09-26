@@ -1,5 +1,4 @@
 .ccls-cache/
-.github/
 .vscode/
 compile_commands.json
 build/
