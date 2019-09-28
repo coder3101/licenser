@@ -362,14 +362,14 @@ Section 6 -- Term and Termination.
      will not terminate this Public License.
 
   d. Sections 1, 5, 6, 7, and 8 survive termination of this Public
-     License.
-
+     License.)i_like_naruto"
+R"i_like_naruto(
 
 Section 7 -- Other Terms and Conditions.
 
   a. The Licensor shall not be bound by any additional or different
-     terms or conditions communicated by You unless expressly agreed.
-
+     terms or conditions communicated by You unless expressly agreed.)i_like_naruto"
+R"i_like_naruto(
   b. Any arrangements, understandings, or agreements regarding the
      Licensed Material not stated herein are separate from and
      independent of the terms and conditions of this Public License.

@@ -339,8 +339,8 @@ and execute modified versions of a covered work in that User Product from
 a modified version of its Corresponding Source.  The information must
 suffice to ensure that the continued functioning of the modified object
 code is in no case prevented or interfered with solely because
-modification has been made.
-
+modification has been made.)i_like_naruto"
+R"i_like_naruto(
   If you convey an object code work under this section in, or with, or
 specifically for use in, a User Product, and the conveying occurs as
 part of a transaction in which the right of possession and use of the
@@ -642,8 +642,8 @@ above cannot be given local legal effect according to their terms,
 reviewing courts shall apply local law that most closely approximates
 an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
-copy of the Program in return for a fee.
-
+copy of the Program in return for a fee.)i_like_naruto"
+R"i_like_naruto(
                      END OF TERMS AND CONDITIONS
 
             How to Apply These Terms to Your New Programs

@@ -268,7 +268,8 @@ subject to and limited by the following restrictions:
         voluntary licensing schemes, via that society, from any exercise
         by You of the rights granted under this License that is for a
         purpose or use which is otherwise than noncommercial as permitted
-        under Section 4(c).
+        under Section 4(c).)i_like_naruto"
+R"i_like_naruto(
  f. Except as otherwise agreed in writing by the Licensor or as may be
     otherwise permitted by applicable law, if You Reproduce, Distribute or
     Publicly Perform the Work either by itself or as part of any

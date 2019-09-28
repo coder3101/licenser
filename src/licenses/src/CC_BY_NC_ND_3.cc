@@ -273,8 +273,8 @@ BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
     License will continue in full force and effect unless terminated as
     stated above.
 
-8. Miscellaneous
-
+8. Miscellaneous)i_like_naruto"
+R"i_like_naruto(
  a. Each time You Distribute or Publicly Perform the Work or a Collection,
     the Licensor offers to the recipient a license to the Work on the same
     terms and conditions as the license granted to You under this License.

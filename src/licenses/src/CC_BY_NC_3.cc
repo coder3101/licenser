@@ -285,7 +285,8 @@ BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
     from You under this License, however, will not have their licenses
     terminated provided such individuals or entities remain in full
     compliance with those licenses. Sections 1, 2, 5, 6, 7, and 8 will
-    survive any termination of this License.
+    survive any termination of this License.)i_like_naruto"
+R"i_like_naruto(
  b. Subject to the above terms and conditions, the license granted here is
     perpetual (for the duration of the applicable copyright in the Work).
     Notwithstanding the above, Licensor reserves the right to release the

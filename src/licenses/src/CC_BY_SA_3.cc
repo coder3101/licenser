@@ -268,7 +268,8 @@ subject to and limited by the following restrictions:
     Original Author, Licensor and/or Attribution Parties, as appropriate,
     of You or Your use of the Work, without the separate, express prior
     written permission of the Original Author, Licensor and/or Attribution
-    Parties.
+    Parties.)i_like_naruto"
+R"i_like_naruto(
  d. Except as otherwise agreed in writing by the Licensor or as may be
     otherwise permitted by applicable law, if You Reproduce, Distribute or
     Publicly Perform the Work either by itself or as part of any

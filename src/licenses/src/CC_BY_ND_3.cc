@@ -292,7 +292,8 @@ BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
     includes additional rights not granted under this License, such
     additional rights are deemed to be included in the License; this
     License is not intended to restrict the license of any rights under
-    applicable law.
+    applicable law.)i_like_naruto"
+R"i_like_naruto(
 
 
 Creative Commons Notice

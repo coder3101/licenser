@@ -360,7 +360,8 @@ Section 5 -- Disclaimer of Warranties and Limitation of Liability.
      USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN
      ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR
      DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR
-     IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.
+     IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.)i_like_naruto"
+R"i_like_naruto(
 
   c. The disclaimer of warranties and limitation of liability provided
      above shall be interpreted in a manner that, to the extent

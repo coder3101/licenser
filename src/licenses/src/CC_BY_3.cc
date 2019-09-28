@@ -279,8 +279,8 @@ BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
     withdraw this License (or any other license that has been, or is
     required to be, granted under the terms of this License), and this
     License will continue in full force and effect unless terminated as
-    stated above.
-
+    stated above.)i_like_naruto"
+R"i_like_naruto(
 8. Miscellaneous
 
  a. Each time You Distribute or Publicly Perform the Work or a Collection,

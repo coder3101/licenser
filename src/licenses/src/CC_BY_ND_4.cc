@@ -371,7 +371,8 @@ Section 7 -- Other Terms and Conditions.
      independent of the terms and conditions of this Public License.
 
 
-Section 8 -- Interpretation.
+Section 8 -- Interpretation.)i_like_naruto"
+R"i_like_naruto(
 
   a. For the avoidance of doubt, this Public License does not, and
      shall not be interpreted to, reduce, limit, restrict, or impose

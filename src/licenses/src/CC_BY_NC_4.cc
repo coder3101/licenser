@@ -354,8 +354,8 @@ Section 6 -- Term and Termination.
   a. This Public License applies for the term of the Copyright and
      Similar Rights licensed here. However, if You fail to comply with
      this Public License, then Your rights under this Public License
-     terminate automatically.
-
+     terminate automatically.)i_like_naruto"
+R"i_like_naruto(
   b. Where Your right to use the Licensed Material has terminated under
      Section 6(a), it reinstates:
 
