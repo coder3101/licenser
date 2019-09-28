@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.12)
 
 project(licenser VERSION 0.1)
 add_executable(licenser src/main.cc)
@@ -7,8 +7,7 @@ set(DEFAULT_CMAKE_BUILD_TYPE Release)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(CODE_COVERAGE "Enable code coverage on tests" OFF)
-option(MAKE_TESTS "Compiles the Tests as well" ON)
-
+option(ENABLE_TESTS "Enable building of tests" ON)
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "Build type set to '${DEFAULT_CMAKE_BUILD_TYPE}' as none specified.")
@@ -19,9 +18,11 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
                PROPERTY STRINGS Debug Release MinSizeRel RelWithDebInfo)
 endif()
 
-set_property(TARGET licenser PROPERTY CXX_STANDARD 17)
-set_property(TARGET licenser PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET licenser PROPERTY CXX_EXTENSIONS OFF)
+# Set C++17 as build standard
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # CMake sets MSVC for both MSVC and Clang(Windows)
 if(MSVC)
@@ -61,7 +62,7 @@ endif()
 # Lyra used by licenser
 include_directories(third_party/Lyra/include)
 # Catch2 Used only upon Testing
-if (MAKE_TESTS)
+if (ENABLE_TESTS)
   include_directories(third_party/Catch2/include)
 endif()
 
@@ -102,21 +103,12 @@ add_library(licenses
 add_library(utility
             src/LicenseWriter.cc)
 
-set_property(TARGET licenses PROPERTY CXX_STANDARD 17)
-set_property(TARGET licenses PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET licenses PROPERTY CXX_EXTENSIONS OFF)
-
-set_property(TARGET utility PROPERTY CXX_STANDARD 17)
-set_property(TARGET utility PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET utility PROPERTY CXX_EXTENSIONS OFF)
-
-
 # Static Modules of licenser
 target_link_libraries(licenser PRIVATE licenses)
 target_link_libraries(licenser PRIVATE utility)
 
 # Testing
-if(MAKE_TESTS)
+if(ENABLE_TESTS)
   enable_testing()
 
   if (CODE_COVERAGE AND (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU))

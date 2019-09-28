@@ -1,0 +1,197 @@
+trigger:
+- master
+
+pr:
+- master
+
+jobs:
+- job:
+  displayName: Linux
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    matrix:
+      Clang-6 Debug:
+        CC: clang-6.0
+        CXX: clang++-6.0
+        BuildType: Debug
+        SelfHost: false
+        CMakeArgs: ''
+
+      Clang-6 Release:
+        CC: clang-6.0
+        CXX: clang++-6.0
+        BuildType: Release
+        SelfHost: false
+        CMakeArgs: ''
+
+      GCC-8 Debug:
+        CC: gcc-8
+        CXX: g++-8
+        BuildType: Debug
+        SelfHost: false
+        CMakeArgs: ''
+
+      GCC-8 Release:
+        CC: gcc-8
+        CXX: g++-8
+        BuildType: Release
+        SelfHost: false
+        CMakeArgs: ''
+
+
+  steps:
+  - script: |
+      git submodule update --recursive --init
+      sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+      sudo apt-get update
+      sudo apt-get install -y ninja-build gcc-8 g++-8 gcc-7 g++-7
+      # sudo apt-get install clang-7.0 clang++-7.0
+
+      sudo update-alternatives --install /usr/bin/cc cc /usr/bin/$(CC) 100
+      sudo update-alternatives --set cc /usr/bin/$(CC)
+
+      sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/$(CXX) 100
+      sudo update-alternatives --set c++ /usr/bin/$(CXX)
+
+      CMAKE_CXX_FLAGS="-std=c++17"
+      if [[ "$CXX" == clang++* ]]; then CMAKE_CXX_FLAGS+=" -stdlib=libstdc++"; fi
+
+    displayName: 'Install Build Dependencies'
+
+  - task: CMake@1
+    displayName: 'CMake .. $(CMakeArgs) -GNinja -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" -DCODE_COVERAGE=On'
+    inputs:
+      cmakeArgs: '.. $(CMakeArgs) -GNinja -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS" -DCODE_COVERAGE=On'
+
+  - script: |
+      ninja
+
+    workingDirectory: build
+    failOnStderr: true
+    displayName: 'Compile'
+
+  - script: |
+      ctest -j 4 --output-on-failure -C $(BuildType)
+
+    workingDirectory: build
+    failOnStderr: true
+    displayName: 'Test'
+
+- job:
+  displayName: Windows
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      64-bit Debug:
+        BuildType: Debug
+        CMakeArgs: '-G"Visual Studio 15 2017 Win64"'
+        JFlag: -j 4
+
+      64-bit Release:
+        BuildType: Release
+        CMakeArgs: '-G"Visual Studio 15 2017 Win64"'
+        JFlag: '-j 2'
+
+      32-bit Debug:
+        BuildType: Debug
+        CMakeArgs: '-G"Visual Studio 15 2017"'
+        JFlag: '-j 4'
+
+      32-bit Release:
+        BuildType: Release
+        CMakeArgs: '-G"Visual Studio 15 2017"'
+        JFlag: '-j 2'
+
+  steps:
+  - script: |
+      bash -c "cat /proc/cpuinfo"
+      bash -c "cat /proc/meminfo"
+      git submodule update --recursive --init
+    displayName: 'Machine stats'
+    
+
+  - task: CMake@1
+    displayName: 'CMake .. $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType)'
+    inputs:
+      cmakeArgs: '.. $(CMakeArgs) -DCMAKE_BUILD_TYPE=$(BuildType)'
+
+  - task: MSBuild@1
+    displayName: 'Build solution build/licenser.sln'
+    inputs:
+      solution: build/licenser.sln
+      msbuildArguments: '/m /p:Configuration=$(BuildType)'
+
+  - script: 'ctest $(JFlag) --interactive-debug-mode 0 --output-on-failure -C $(BuildType)'
+    workingDirectory: build
+    displayName: 'Run Ctest'
+
+- job: 
+  displayName: macOS
+  pool:
+    vmImage: 'macOS-10.14'
+  strategy:
+    matrix:
+      Debug:
+        BuildType: Debug
+        CC: "/Applications/Xcode_11.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc"
+        CXX: "/Applications/Xcode_11.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++"
+
+      Release:
+       CC: "/Applications/Xcode_11.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc"
+       CXX: "/Applications/Xcode_11.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++"
+       BuildType: Release
+
+  steps:
+  - task: CMake@1
+    displayName: 'CMake .. -DCMAKE_BUILD_TYPE=$(BuildType)'
+    inputs:
+      cmakeArgs: '.. -DCMAKE_BUILD_TYPE=$(BuildType) '
+
+  - script: |
+      git submodule update --recursive --init
+      make -j 4
+
+    workingDirectory: build
+    failOnStderr: true
+    displayName: 'Compile'
+
+  - script: |
+      ctest -j 4 --output-on-failure -C $(BuildType)
+
+    workingDirectory: build
+    failOnStderr: true
+    displayName: 'Test'
+
+# - job: 
+#   displayName: Format
+#   pool:
+#     vmImage: 'ubuntu-16.04'
+#   steps:
+#   - script: |
+#       wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+#       sudo add-apt-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-8 main"
+#       sudo apt-get update
+#       sudo apt-get install -y clang-format-8 clang-tidy-8
+#       sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-8 100
+
+#     displayName: 'Install clang'
+
+#   - task: CMake@1
+#     displayName: 'CMake ..'
+#     inputs:
+#       cmakeArgs: '..'
+
+#   - script: |
+#       make clangformat
+#       if [ "$(git diff $(Build.SourceVersion))" != "" ]; then exit 1; fi
+
+#     workingDirectory: build
+#     displayName: 'Clang-Format'
+
+#   - script: |
+#       clang-tidy-8  src/override/malloc.cc  -header-filter="`pwd`/*" -export-fixes=tidy.fail -- -std=c++17 -mcx16
+#       if [ -f tidy.fail ] ; then exit 1 ; fi
+
+#     displayName: 'Clang-Tidy'
