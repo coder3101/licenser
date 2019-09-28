@@ -18,17 +18,26 @@ Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quic
 
 
 
+## Usage
+> Coming Soon
+
+## Pre-built Binaries
+> Coming Soon
+
+
 ## Building from Source
 
 - **Linux**
-
   Here is the recipe for compiling the project
-
-  - `git clone https://github.com/coder3101/licenser`
-- `git submodule update --init --recursive`
-  - `mkdir build && cd build`
-- `cmake -DENABLE_TESTS=Off ..`
-  - `make -j4`
+  
+  ````bash
+  git clone https://github.com/coder3101/licenser &&
+  git submodule update --init --recursive &&
+  mkdir build && cd build &&
+  cmake -DENABLE_TESTS=Off .. &&
+  ninja -j4
+  ````
+  
 
   Enjoy the food ! located at `${PROJECT_ROOT}/build/licenser`
 

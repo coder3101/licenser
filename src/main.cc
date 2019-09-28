@@ -17,6 +17,10 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 0
+#define VERSION_PATCH 1
+
 #include <CommandLineArgs.hpp>
 #include <iostream>
 #include <lyra/lyra.hpp>
@@ -62,6 +66,10 @@ int main(int argc, const char** argv) {
       lyra::opt(args.ongoing_project)["-o"]["--ongoing"](
           "If this project is currently ongoing? This flag is used to "
           "update the year in the Source headers.")
+          .optional() |
+
+      lyra::opt(args.showVersion)["-v"]["--version"](
+          "Shows the version of the application")
           .optional();
 
   auto result = cli.parse({argc, argv});
@@ -70,6 +78,9 @@ int main(int argc, const char** argv) {
     std::cerr << "Error in command line: " << result.errorMessage()
               << std::endl;
     exit(1);
+  } else if (args.showVersion) {
+    std::cout << "Licenser version " << VERSION_MAJOR << "." << VERSION_MINOR
+              << VERSION_PATCH << "\n";
   } else if (args.showHelp) {
     std::cout << cli;
   } else if (args.initiate) {

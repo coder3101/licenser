@@ -21,10 +21,13 @@
 #include <string>
 namespace licenser {
 struct ApplicationArgs {
-  ApplicationArgs() : showHelp(false), initiate(false), update(false) {}
+  ApplicationArgs()
+      : showHelp(false), initiate(false), update(false), showVersion(false) {}
   bool showHelp;
   bool initiate;
   bool update;
+
+  bool showVersion;
 
   bool ongoing_project;
   std::string author;
