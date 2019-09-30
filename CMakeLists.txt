@@ -118,9 +118,7 @@ if(ENABLE_TESTS)
   endif()
 
   add_executable(parse_cc tests/preprocessor/parse.cc)
-  add_executable(remove_placeholder_cc tests/preprocessor/remove_placeholder.cc)
 
   add_test(parser parse_cc)
-  add_test(placeholder remove_placeholder_cc)
 
 endif()

@@ -31,10 +31,9 @@ class Preprocessor {
     for (int t = 0; t < raw.size(); t++) {
       if (last_start == -1 && raw[t] == '%')
         last_start = t;
-
       else if (raw[t] == '%') {
         std::string plh;
-        for (int st = last_start + 1; st < t; st++) plh += raw[t];
+        for (int st = last_start + 1; st < t; st++) plh += raw[st];
         replace_placeholder(plh, ans, args);
         last_start = -1;
       } else if (last_start != -1) {
@@ -49,6 +48,7 @@ class Preprocessor {
       } else
         ans += raw[t];
     }
+    if(last_start != -1) while(last_start < raw.size()) ans+=raw[last_start++];
     return ans;
   }
 
@@ -61,7 +61,7 @@ class Preprocessor {
     else if (placeholder_text == "EMAIL")
       text += args.email;
     else if (placeholder_text == "YEAR_FROM")
-      text += args.year;
+      text += std::to_string(args.year);
     else if (placeholder_text == "PROJECT")
       text += args.project;
     else if (placeholder_text == "YEAR_TO") {
@@ -70,8 +70,11 @@ class Preprocessor {
       auto tm_ptr = std::localtime(&time);
       if (tm_ptr->tm_year + 1900 != args.year && args.ongoing_project)
         text += std::to_string(1900 + tm_ptr->tm_year);
-    } else
+    } else{
+      text += "%";
       text += placeholder_text;
+      text += "%";
+    }
   }
 };
 }  // namespace licenser
