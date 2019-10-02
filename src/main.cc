@@ -24,31 +24,41 @@
 #include <CommandLineArgs.hpp>
 #include <iostream>
 #include <lyra/lyra.hpp>
+#include "ConfigReader.hpp"
 #include "LicenseWriter.hpp"
 #include "all_license.hpp"
-#include "ConfigReader.hpp"
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
 
   auto cli =
-      lyra::help(args.showHelp) |
+      lyra::help(args.commandLineArgs.showHelp) |
 
-      lyra::opt(args.initiate)["-i"]["--init"](
+      lyra::opt(args.commandLineArgs.initiate)["-i"]["--init"](
           "Initiates a Simple License Configuration") |
 
-      lyra::opt(args.update)["-u"]["--update"](
+      lyra::opt(args.commandLineArgs.update)["-u"]["--update"](
           "Updates Source files with configuration changes") |
 
       lyra::opt(args.license, "license_shortname")["-l"]["--license"](
           "The short name for license separated by underscore in case "
           "of multiwords")
-          .optional() |
+          .optional()
+          .choices([](std::string input) {
+            return licenser::licenses::License::enum_from_name(input) !=
+                   licenser::licenses::LicenseType::UNKNOWN;
+          }) |
 
       lyra::opt(args.email, "email@domail.com")["-e"]["--email"](
           "The email that should appear on source headers. For multiple "
           "users you can separate them by \" , \" ")
-          .optional() |
+          .optional()
+          .choices([](std::string s) {
+            auto at_idx = s.find('@');
+            auto last_dot = s.find_last_of('.');
+            return at_idx != std::string::npos &&
+                   last_dot != std::string::npos && last_dot > at_idx;
+          }) |
 
       lyra::opt(args.project, "project_name")["-p"]["--project"](
           "The name of the project that will appear in license headers")
@@ -57,7 +67,15 @@ int main(int argc, const char** argv) {
       lyra::opt(args.year, "year")["-y"]["--year"](
           "The starting year of the project that will appear in the license "
           "header")
-          .optional() |
+          .optional()
+          .choices([](std::string s) {
+            try {
+              auto res = std::atoi(s.c_str());
+              return res > 1900;
+            } catch (...) {
+              return false;
+            }
+          }) |
 
       lyra::opt(args.author, "author_name")["-a"]["--author"](
           "The author names or organization name that will be displayed in the "
@@ -69,7 +87,7 @@ int main(int argc, const char** argv) {
           "update the year in the Source headers.")
           .optional() |
 
-      lyra::opt(args.showVersion)["-v"]["--version"](
+      lyra::opt(args.commandLineArgs.showVersion)["-v"]["--version"](
           "Shows the version of the application")
           .optional();
 
@@ -79,26 +97,34 @@ int main(int argc, const char** argv) {
     std::cerr << "Error in command line: " << result.errorMessage()
               << std::endl;
     exit(1);
-  } else if (args.showVersion) {
+  }
+
+  else if (args.commandLineArgs.showVersion) {
     std::cout << "Licenser version " << VERSION_MAJOR << "." << VERSION_MINOR
               << VERSION_PATCH << "\n";
-  } else if (args.showHelp) {
+  }
+
+  else if (args.commandLineArgs.showHelp) {
     std::cout << cli;
-  } else if (args.initiate) {
+  }
+
+  else if (args.commandLineArgs.initiate) {
     using namespace licenser::licenses;
 
     auto license_enum = License::enum_from_name(args.license);
     auto license_ptr = License::make_license(license_enum);
-    
-    licenser::LicenseWriter writer(std::move(license_ptr));
+
+    licenser::writer::LicenseWriter writer(std::move(license_ptr));
     writer.write(args);
     std::cout << "Initiated LICENSE file in directory " << writer.cwd()
               << std::endl;
-  } else if (args.update) {
-    std::cout<<"Reading from config\n";
-    licenser::configmgr::ConfigReader::read(".");
-  } else {
-    std::cout << cli;
   }
+
+  else if (args.commandLineArgs.update) {
+    std::cout << "Reading from config\n";
+    licenser::configmgr::ConfigReader::read(".");
+  }
+  else
+    std::cout << cli;
   return 0;
 }

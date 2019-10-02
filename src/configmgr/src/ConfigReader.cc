@@ -20,7 +20,7 @@
 #include "ConfigReader.hpp"
 #include <filesystem>
 #include <fstream>
-
+#include "ConfigParser.hpp"
 #include <iostream>
 
 #ifndef LICENSER_CONFIG_NAME
@@ -62,12 +62,8 @@ std::optional<ApplicationArgs> ConfigReader::read(std::string path) {
   std::ifstream config;
   config.open(path);
   if (config.is_open()) {
-    std::string conf;
-    while (std::getline(config, conf)) {
-      if(conf.empty()) continue;
-      std::cout<<conf<<"\n";
-      // Make some string processing here
-    }
+    ConfigParser parser(config);
+    ret_val = parser.get_application_args();
   }
   return ret_val;
 }

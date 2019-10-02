@@ -25,7 +25,7 @@
 #include "LicenseType.hpp"
 #include "all_license.hpp"
 #include "CommandLineArgs.hpp"
-namespace licenser {
+namespace licenser::writer {
 class LicenseWriter {
  public:
   LicenseWriter(std::unique_ptr<licenses::License> type,

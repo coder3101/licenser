@@ -20,7 +20,7 @@
 #pragma once
 
 #include "CommandLineArgs.hpp"
-namespace licenser::filemgr {
+namespace licenser::configmgr {
 class ConfigWriter {
  public:
   static bool write(ApplicationArgs app, std::string path = ".");

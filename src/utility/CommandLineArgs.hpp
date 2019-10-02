@@ -21,19 +21,23 @@
 #include <string>
 namespace licenser {
 struct ApplicationArgs {
-  ApplicationArgs()
-      : showHelp(false), initiate(false), update(false), showVersion(false) {}
-  bool showHelp;
-  bool initiate;
-  bool update;
+  ApplicationArgs() : ongoing_project(false) {}
 
-  bool showVersion;
-
+  struct CommandLineArgs {
+    CommandLineArgs()
+        : showHelp(false), initiate(false), update(false), showVersion(false) {}
+    bool showHelp;
+    bool initiate;
+    bool update;
+    bool showVersion;
+  };
   bool ongoing_project;
   std::string author;
   std::string email;
   unsigned int year;
   std::string license;
   std::string project;
+
+  CommandLineArgs commandLineArgs;
 };
 }  // namespace licenser

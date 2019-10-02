@@ -71,11 +71,11 @@ include_directories(src/utility)
 # Building Static Libs
 include(src/licenses/CMakeLists.txt)
 include(src/configmgr/CMakeLists.txt)
-include(src/licensewriter/CMakeLists.txt)
+include(src/writer/CMakeLists.txt)
 
 # Static Modules of licenser
 target_link_libraries(licenser PRIVATE licenses)
-target_link_libraries(licenser PRIVATE licensewriter)
+target_link_libraries(licenser PRIVATE writer)
 target_link_libraries(licenser PRIVATE configmgr)
 
 # Testing
@@ -88,8 +88,7 @@ if(ENABLE_TESTS)
     message(STATUS "Coverage report will be generated")
   endif()
 
-  add_executable(parse_cc tests/preprocessor/parse.cc)
-
-  add_test(parser parse_cc)
+  include(tests/preprocessor/CMakeLists.txt)
+  include(tests/configmgr/CMakeLists.txt)
 
 endif()

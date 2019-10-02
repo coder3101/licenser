@@ -21,7 +21,7 @@
 #include <exception>
 #include "PreProcessor.hpp"
 
-namespace licenser {
+namespace licenser::writer {
 LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
                              std::string name)
     : name(name) {
