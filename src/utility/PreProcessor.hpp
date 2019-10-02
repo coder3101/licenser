@@ -20,6 +20,7 @@
 #pragma once
 #include <chrono>
 #include <string>
+#include <ctime>
 #include "CommandLineArgs.hpp"
 namespace licenser {
 class Preprocessor {
