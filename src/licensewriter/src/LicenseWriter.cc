@@ -19,7 +19,7 @@
 
 #include "LicenseWriter.hpp"
 #include <exception>
-#include <iostream>
+#include "PreProcessor.hpp"
 
 namespace licenser {
 LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
@@ -37,9 +37,8 @@ LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
 
 std::string LicenseWriter::get_name() const noexcept { return this->name; }
 
-void LicenseWriter::write() {
-  // Todo Pass the type to preprocessor before writing here
-  this->stream << type->body_to_string();
+void LicenseWriter::write(ApplicationArgs const& app) {
+  this->stream << Preprocessor::parse(type->body_to_string(), app);
 }
 
 std::string LicenseWriter::cwd() const {

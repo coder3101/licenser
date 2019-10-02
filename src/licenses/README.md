@@ -28,7 +28,7 @@ Example :
 class MyNewAwesomeLicense final : public License{
     ...
     std::string header_to_string() const override {
-        return "Copyright (C) %PROJECT% was created by %AUTHOR% from %YEAR_FROM% to %YEAR_TO%. For help send mail to %EMAIL%";
+        return "Copyright (C) %PROJECT% was created by %%AUTHOR% from %YEAR_FROM% to %YEAR_TO%. For help send mail to %EMAIL%";
     }
 };
 ```

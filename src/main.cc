@@ -26,6 +26,7 @@
 #include <lyra/lyra.hpp>
 #include "LicenseWriter.hpp"
 #include "all_license.hpp"
+#include "ConfigReader.hpp"
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
@@ -88,11 +89,14 @@ int main(int argc, const char** argv) {
 
     auto license_enum = License::enum_from_name(args.license);
     auto license_ptr = License::make_license(license_enum);
+    
     licenser::LicenseWriter writer(std::move(license_ptr));
-    writer.write();
+    writer.write(args);
     std::cout << "Initiated LICENSE file in directory " << writer.cwd()
               << std::endl;
   } else if (args.update) {
+    std::cout<<"Reading from config\n";
+    licenser::configmgr::ConfigReader::read(".");
   } else {
     std::cout << cli;
   }
