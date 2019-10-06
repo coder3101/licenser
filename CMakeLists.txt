@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(CODE_COVERAGE "Enable code coverage on tests" OFF)
 option(ENABLE_TESTS "Enable building of tests" ON)
+option(STATIC_EXECUTABLE "Should be make Static Executable (only GCC)" OFF)
 
 set_target_properties(licenser PROPERTIES 
             CXX_STANDARD 17
@@ -77,6 +78,11 @@ include(src/writer/CMakeLists.txt)
 target_link_libraries(licenser PRIVATE licenses)
 target_link_libraries(licenser PRIVATE writer)
 target_link_libraries(licenser PRIVATE configmgr)
+
+# Static linkage for libstdc++
+if(STATIC_EXECUTABLE AND (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU))
+  set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
+endif()
 
 # Testing
 if(ENABLE_TESTS)
