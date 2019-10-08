@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include "catch.hpp"
+
 TEST_CASE("trim_start", "[Config Parser]") {
   std::string Q1 = "    Hello";
   std::string Q2 = "No spaced";
@@ -127,6 +128,7 @@ TEST_CASE("split", "[ConfigParser]"){
   CHECK(ConfigParser::split(Q8) == A8);
   CHECK(ConfigParser::split(Q9) == A9);
 }
+
 TEST_CASE("append_to_args", "[ConfigParser]"){
 
 }

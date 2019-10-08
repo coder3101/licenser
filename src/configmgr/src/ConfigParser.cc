@@ -64,6 +64,7 @@ std::string ConfigParser::trim_start(std::string s) {
 }
 
 std::string ConfigParser::trim_end(std::string s) {
+  if(s.empty()) return s;
   auto i = s.size() - 1;
   while (i >= 0 && (s[i] == ' ' || s[i] == '\n')) i--;
   std::string extra = s[s.size() - 1] == '\n' ? "\n" : "";
