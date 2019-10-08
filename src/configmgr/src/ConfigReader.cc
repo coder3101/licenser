@@ -20,12 +20,9 @@
 #include "ConfigReader.hpp"
 #include <filesystem>
 #include <fstream>
-#include "ConfigParser.hpp"
 #include <iostream>
+#include "ConfigParser.hpp"
 
-#ifndef LICENSER_CONFIG_NAME
-#define LICENSER_CONFIG_NAME ".licenser.rc"
-#endif
 namespace licenser::configmgr {
 ConfigReader::ConfigReader(std::string path) : root(path) {
   auto xf = ConfigReader::read(path);
@@ -66,6 +63,11 @@ std::optional<ApplicationArgs> ConfigReader::read(std::string path) {
     ret_val = parser.get_application_args();
   }
   return ret_val;
+}
+
+bool ConfigReader::has_config_file(std::string path) {
+  auto f = std::filesystem::path(path).append(LICENSER_CONFIG_NAME);
+  return std::filesystem::exists(f);
 }
 
 }  // namespace licenser::configmgr

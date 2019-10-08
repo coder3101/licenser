@@ -20,9 +20,13 @@
 #pragma once
 
 #include "CommandLineArgs.hpp"
+
+#ifndef LICENSER_CONFIG_NAME
+#define LICENSER_CONFIG_NAME ".licenser.rc"
+#endif
 namespace licenser::configmgr {
 class ConfigWriter {
  public:
   static bool write(ApplicationArgs app, std::string path = ".");
 };
-}  // namespace licenser::filemgr
+}  // namespace licenser::configmgr

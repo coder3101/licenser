@@ -34,7 +34,7 @@ struct ApplicationArgs {
   bool ongoing_project;
   std::string author;
   std::string email;
-  unsigned int year;
+  unsigned int year = 0;
   std::string license;
   std::string project;
 

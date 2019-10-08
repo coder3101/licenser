@@ -19,10 +19,15 @@
 
 #pragma once
 #include <filesystem>
+#include <optional>
+#include <stack>
 #include <string>
 #include "CommandLineArgs.hpp"
-#include <stack>
-#include <optional>
+
+#ifndef LICENSER_CONFIG_NAME
+#define LICENSER_CONFIG_NAME ".licenser.rc"
+#endif
+
 namespace licenser::configmgr {
 class ConfigReader {
  public:
@@ -31,13 +36,14 @@ class ConfigReader {
 
   void enter_dir(std::string new_path);
   bool leave_dir();
-  
+
   static std::optional<ApplicationArgs> read(std::string path = ".");
+
+  static bool has_config_file(std::string path = ".");
 
  private:
   std::string root;
   ApplicationArgs root_config;
   std::stack<ApplicationArgs> recursive_configs;
-
 };
 }  // namespace licenser::configmgr

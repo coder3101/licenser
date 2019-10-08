@@ -24,7 +24,7 @@ std::string get_arch() {
 #if defined(__amd64__) || defined(__amd64) || defined(__x86_64) || \
     defined(__x86_64__) || defined(_M_AMD64)
   return "AMD64 (x86_64)";
-#elif defined(__aarch64)
+#elif defined(__aarch64__)
   return "ARM64";
 #elif defined(__arm__) || defined(_M_ARM)
   return "ARM"

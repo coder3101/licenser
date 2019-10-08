@@ -23,11 +23,19 @@
 
 #include <CommandLineArgs.hpp>
 #include <iostream>
-#include "ArchInfo.hpp"
 #include <lyra/lyra.hpp>
+#include "ArchInfo.hpp"
 #include "ConfigReader.hpp"
+#include "ConfigWriter.hpp"
 #include "LicenseWriter.hpp"
 #include "all_license.hpp"
+
+unsigned int this_year() {
+  auto cur_time = std::chrono::system_clock::now();
+  std::time_t time = std::chrono::system_clock::to_time_t(cur_time);
+  auto tm_ptr = std::localtime(&time);
+  return tm_ptr->tm_year + 1900;
+}
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
@@ -103,8 +111,8 @@ int main(int argc, const char** argv) {
   else if (args.commandLineArgs.showVersion) {
     std::cout << "Licenser version " << VERSION_MAJOR << "." << VERSION_MINOR
               << VERSION_PATCH << "\n";
-              std::cout<<"Licensed under GNU General Public License Version 3\n";
-              std::cout<<"Target Architecture : "<<licenser::get_arch()<<"\n";
+    std::cout << "Licensed under GNU General Public License Version 3\n";
+    std::cout << "Target Architecture : " << licenser::get_arch() << "\n";
   }
 
   else if (args.commandLineArgs.showHelp) {
@@ -112,16 +120,86 @@ int main(int argc, const char** argv) {
   }
 
   else if (args.commandLineArgs.initiate) {
-    
-    // using namespace licenser::licenses;
+    auto res = licenser::configmgr::ConfigReader::has_config_file(".");
+    if (res) {
+      std::cout << "A Configuration file named " << LICENSER_CONFIG_NAME
+                << " already exists\n";
+      return 0;
+    } else {
+      std::cout << "Creating a Configuration File in Current Working Directory";
 
-    // auto license_enum = License::enum_from_name(args.license);
-    // auto license_ptr = License::make_license(license_enum);
+      if (args.author.empty()) {
+        while (args.author.empty()) {
+          std::cout << std::endl;
+          std::cout << "Who is the author (required) : ";
+          std::getline(std::cin, args.author);
+        }
+      }
 
-    // licenser::writer::LicenseWriter writer(std::move(license_ptr));
-    // writer.write(args);
-    // std::cout << "Initiated LICENSE file in directory " << writer.cwd()
-    //           << std::endl;
+      if (args.email.empty()) {
+        std::cout << std::endl;
+        std::cout << "An email of the author (optional) : ";
+        std::getline(std::cin, args.author);
+      }
+
+      if (args.project.empty()) {
+        while (args.project.empty()) {
+          std::cout << std::endl;
+          std::cout << "Name of the project (required) : ";
+          std::getline(std::cin, args.author);
+        }
+      }
+
+      if (args.year == 0) {
+        while (args.year > 1900) {
+          std::cout << std::endl;
+          std::cout << "When did project started : ";
+          std::string num;
+          std::getline(std::cin, num);
+          try {
+            args.year = std::atoi(num.c_str());
+          } catch (...) {  // ignore
+          };
+          if (args.year <= this_year()) {
+            std::cout << "Start year cannot Exceed Current year\n";
+            args.year = 0;
+          }
+        }
+      }
+
+      if (!args.ongoing_project && args.year < this_year()) {
+        std::string res;
+        while (res.empty()) {
+          std::cout << "Project started in past. Is it still being maintained "
+                       "(Y/N)? : ";
+          std::getline(std::cin, res);
+        }
+        args.ongoing_project = res[0] == 'Y' || res[0] == 'y';
+      }
+
+      if (args.license.empty()) {
+        bool f = true;
+        while (f) {
+          std::cout << "Short name of license for the project : ";
+          std::string ans;
+          std::getline(std::cin, ans);
+          args.license = ans;
+          f = licenser::licenses::License::enum_from_name(ans) ==
+              licenser::licenses::LicenseType::UNKNOWN;
+        }
+      }
+
+      licenser::configmgr::ConfigWriter::write(args);
+      using namespace licenser::licenses;
+
+      auto license_enum = License::enum_from_name(args.license);
+      auto license_ptr = License::make_license(license_enum);
+
+      licenser::writer::LicenseWriter writer(std::move(license_ptr));
+      writer.write(args);
+      std::cout << "Initiated LICENSE file in directory " << writer.cwd()
+                << std::endl;
+    }
   }
 
   else if (args.commandLineArgs.update) {

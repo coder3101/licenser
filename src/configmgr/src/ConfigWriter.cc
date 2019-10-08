@@ -23,6 +23,7 @@
 namespace licenser::configmgr {
 bool ConfigWriter::write(ApplicationArgs app, std::string path) {
   std::filesystem::path p(path);
+  p.append(LICENSER_CONFIG_NAME);
   path = p.string();
   std::ofstream stream(path);
   if (!stream.is_open() || !stream.good()) return false;
