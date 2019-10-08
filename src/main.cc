@@ -21,158 +21,103 @@
 #define VERSION_MINOR 0
 #define VERSION_PATCH 2
 
-#include <CommandLineArgs.hpp>
+#include <iomanip>
 #include <iostream>
-#include <lyra/lyra.hpp>
 #include "ArchInfo.hpp"
+#include "CLI.hpp"
+#include "CommandLineArgs.hpp"
 #include "ConfigReader.hpp"
 #include "ConfigWriter.hpp"
 #include "LicenseWriter.hpp"
-#include "all_license.hpp"
-
-unsigned int this_year() {
-  auto cur_time = std::chrono::system_clock::now();
-  std::time_t time = std::chrono::system_clock::to_time_t(cur_time);
-  auto tm_ptr = std::localtime(&time);
-  return tm_ptr->tm_year + 1900;
-}
+#include "Util.hpp"
 
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
-
-  auto cli =
-      lyra::help(args.commandLineArgs.showHelp) |
-
-      lyra::opt(args.commandLineArgs.initiate)["-i"]["--init"](
-          "Initiates a Simple License Configuration") |
-
-      lyra::opt(args.commandLineArgs.update)["-u"]["--update"](
-          "Updates Source files with configuration changes") |
-
-      lyra::opt(args.license, "license_shortname")["-l"]["--license"](
-          "The short name for license separated by underscore in case "
-          "of multiwords")
-          .optional()
-          .choices([](std::string input) {
-            return licenser::licenses::License::enum_from_name(input) !=
-                   licenser::licenses::LicenseType::UNKNOWN;
-          }) |
-
-      lyra::opt(args.email, "email@domail.com")["-e"]["--email"](
-          "The email that should appear on source headers. For multiple "
-          "users you can separate them by \" , \" ")
-          .optional()
-          .choices([](std::string s) {
-            auto at_idx = s.find('@');
-            auto last_dot = s.find_last_of('.');
-            return at_idx != std::string::npos &&
-                   last_dot != std::string::npos && last_dot > at_idx;
-          }) |
-
-      lyra::opt(args.project, "project_name")["-p"]["--project"](
-          "The name of the project that will appear in license headers")
-          .optional() |
-
-      lyra::opt(args.year, "year")["-y"]["--year"](
-          "The starting year of the project that will appear in the license "
-          "header")
-          .optional()
-          .choices([](std::string s) {
-            try {
-              auto res = std::atoi(s.c_str());
-              return res > 1900;
-            } catch (...) {
-              return false;
-            }
-          }) |
-
-      lyra::opt(args.author, "author_name")["-a"]["--author"](
-          "The author names or organization name that will be displayed in the "
-          "header. You can separate multiple by \" , \"")
-          .optional() |
-
-      lyra::opt(args.ongoing_project)["-o"]["--ongoing"](
-          "If this project is currently ongoing? This flag is used to "
-          "update the year in the Source headers.")
-          .optional() |
-
-      lyra::opt(args.commandLineArgs.showVersion)["-v"]["--version"](
-          "Shows the version of the application")
-          .optional();
-
+  auto cli = licenser::get_lyra_cli(args);
   auto result = cli.parse({argc, argv});
 
+  // *************************** ON ERROR ***********************************
   if (!result) {
     std::cerr << "Error in command line: " << result.errorMessage()
               << std::endl;
     exit(1);
   }
-
+  // **************************** ON VERSION ********************************
   else if (args.commandLineArgs.showVersion) {
     std::cout << "Licenser version " << VERSION_MAJOR << "." << VERSION_MINOR
               << VERSION_PATCH << "\n";
-    std::cout << "Licensed under GNU General Public License Version 3\n";
+    std::cout << "Licensed under GNU General Public License 3\n";
     std::cout << "Target Architecture : " << licenser::get_arch() << "\n";
   }
-
+  // *************************** ON HELP ************************************
   else if (args.commandLineArgs.showHelp) {
     std::cout << cli;
   }
-
+  //**************************** ON INIT ************************************
   else if (args.commandLineArgs.initiate) {
     auto res = licenser::configmgr::ConfigReader::has_config_file(".");
     if (res) {
       std::cout << "A Configuration file named " << LICENSER_CONFIG_NAME
                 << " already exists\n";
-      return 0;
+      exit(1);
     } else {
-      std::cout << "Creating a Configuration File in Current Working Directory";
+      std::cout
+          << "Creating a Configuration File in Current Working Directory\n";
 
       if (args.author.empty()) {
         while (args.author.empty()) {
-          std::cout << std::endl;
           std::cout << "Who is the author (required) : ";
           std::getline(std::cin, args.author);
+          if (args.author.empty())
+            std::cout << "Author name cannot be empty. Try again\n";
         }
       }
 
       if (args.email.empty()) {
-        std::cout << std::endl;
-        std::cout << "An email of the author (optional) : ";
-        std::getline(std::cin, args.author);
+        do {
+          std::cout << "An email of the author (optional) : ";
+          std::getline(std::cin, args.email);
+          if (!licenser::lambdas::is_valid_email(args.email)) {
+            std::cout
+                << "Not a valid email address. Try again or leave empty\n";
+          }
+        } while (!licenser::lambdas::is_valid_email(args.email));
       }
 
       if (args.project.empty()) {
         while (args.project.empty()) {
-          std::cout << std::endl;
           std::cout << "Name of the project (required) : ";
-          std::getline(std::cin, args.author);
+          std::getline(std::cin, args.project);
+          if (args.project.empty())
+            std::cout << "Project name cannot be empty. Try again\n";
         }
       }
 
       if (args.year == 0) {
-        while (args.year > 1900) {
-          std::cout << std::endl;
+        while (args.year < 1900) {
           std::cout << "When did project started : ";
           std::string num;
           std::getline(std::cin, num);
-          try {
-            args.year = std::atoi(num.c_str());
-          } catch (...) {  // ignore
-          };
-          if (args.year <= this_year()) {
-            std::cout << "Start year cannot Exceed Current year\n";
+          if (!licenser::lambdas::is_valid_year(num)) {
+            std::cout << "Not a valid year. Try again\n";
+            continue;
+          } else
+            args.year = std::stoi(num);  // Guaranteed to be safe.
+          if (args.year > licenser::this_year()) {
+            std::cout << "Start year cannot be more than present year\n";
             args.year = 0;
           }
         }
       }
 
-      if (!args.ongoing_project && args.year < this_year()) {
+      if (!args.ongoing_project && args.year < licenser::this_year()) {
         std::string res;
         while (res.empty()) {
-          std::cout << "Project started in past. Is it still being maintained "
-                       "(Y/N)? : ";
+          std::cout
+              << "Project was started in past. Is it still being maintained "
+                 "(Y/N)? : ";
           std::getline(std::cin, res);
+          if (args.author.empty()) std::cout << "Response cannot be empty\n";
         }
         args.ongoing_project = res[0] == 'Y' || res[0] == 'y';
       }
@@ -186,8 +131,12 @@ int main(int argc, const char** argv) {
           args.license = ans;
           f = licenser::licenses::License::enum_from_name(ans) ==
               licenser::licenses::LicenseType::UNKNOWN;
+          if (f)
+            std::cout << "That didn't matched with any License. Try again\n";
         }
       }
+
+      if (args.year == licenser::this_year()) args.ongoing_project = true;
 
       licenser::configmgr::ConfigWriter::write(args);
       using namespace licenser::licenses;
@@ -202,10 +151,34 @@ int main(int argc, const char** argv) {
     }
   }
 
+  // **************************** ON SHOW_LICENSE ****************************
+
+  else if (args.commandLineArgs.show_licenses) {
+    std::cout << std::setw(30) << std::left;
+    std::cout << "Short Name ";
+    std::cout << std::setw(60) << std::left;
+    std::cout << "   License Name";
+    std::cout << std::endl;
+    for (int start = licenser::licenses::LicenseType::AGPLv3;
+         start != licenser::licenses::LicenseType::UNKNOWN; start++) {
+      auto enum_type = static_cast<licenser::licenses::LicenseType>(start);
+      std::cout << std::setw(30) << std::left;
+      std::cout << "   " + licenser::licenses::License::short_name_from_enum(
+                               enum_type);
+      std::cout << std::setw(60) << std::left;
+      std::cout << licenser::licenses::License::name_from_enum(enum_type);
+      std::cout << std::endl;
+    }
+    return 0;
+  }
+
+  // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
     std::cout << "Reading from config\n";
     licenser::configmgr::ConfigReader::read(".");
-  } else
+  }
+  // ***************************** ON UNKNOWN *********************************
+  else
     std::cout << cli;
   return 0;
 }

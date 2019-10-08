@@ -30,6 +30,7 @@ struct ApplicationArgs {
     bool initiate;
     bool update;
     bool showVersion;
+    bool show_licenses;
   };
   bool ongoing_project;
   std::string author;

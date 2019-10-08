@@ -25,7 +25,7 @@
 #include "CommandLineArgs.hpp"
 
 #ifndef LICENSER_CONFIG_NAME
-#define LICENSER_CONFIG_NAME ".licenser.rc"
+#define LICENSER_CONFIG_NAME ".licenserrc"
 #endif
 
 namespace licenser::configmgr {

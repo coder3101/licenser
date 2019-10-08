@@ -79,8 +79,67 @@ std::string License::name_from_enum(LicenseType typeLicense) noexcept {
       return "zlib License";
     case CUSTOM:
       return "Custom";
-    default: // Unknown
+    default:  // Unknown
       return "Unknown";
+  }
+}
+
+std::string License::short_name_from_enum(LicenseType typeLicense) noexcept {
+  switch (typeLicense) {
+    case AGPLv3:
+      return "AGPLv3";
+    case AL2:
+      return "AL2";
+    case BSD2:
+      return "BSD2";
+    case BSD3:
+      return "BSD3";
+    case BSL1:
+      return "BSL1";
+    case CC_BY_3:
+      return "CC_BY_3";
+    case CC_BY_4:
+      return "CCC_BY_4";
+    case CC_BY_NC_3:
+      return "CC_BY_NC_3";
+    case CC_BY_NC_4:
+      return "CC_BY_NC_4";
+    case CC_BY_NC_ND_3:
+      return "CC_BY_NC_ND_3";
+    case CC_BY_NC_ND_4:
+      return "CC_BY_NC_ND_4";
+    case CC_BY_NC_SA_3:
+      return "CC_BY_NC_SA_3";
+    case CC_BY_NC_SA_4:
+      return "CC_BY_NC_SA_4";
+    case CC_BY_ND_3:
+      return "CC_BY_ND_3";
+    case CC_BY_ND_4:
+      return "CC_BY_ND_4";
+    case CC_BY_SA_3:
+      return "CC_BY_SA_3";
+    case CC_BY_SA_4:
+      return "CC_BY_SA_4";
+    case CCO1:
+      return "CC01";
+    case GPLv2:
+      return "GPLv2";
+    case GPLv3:
+      return "GPLv3";
+    case LGPLv3:
+      return "LGPLv3";
+    case MIT:
+      return "MIT";
+    case MPLv2:
+      return "MPLv2";
+    case WTFPL:
+      return "WTFPL";
+    case ZLIB:
+      return "ZLIB";
+    case CUSTOM:
+      return "CUSTOM";
+    default:  // Unknown
+      return "UNKNOWN";
   }
 }
 
@@ -139,7 +198,7 @@ std::unique_ptr<License> License::make_license(
       return std::make_unique<ZLIB_>();
     case CUSTOM:
       return custom;
-    default: // Unknown
+    default:  // Unknown
       return nullptr;
   }
 }

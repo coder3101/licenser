@@ -38,6 +38,8 @@ class License {
 
   static LicenseType enum_from_name(std::string s) noexcept;
 
+  static std::string short_name_from_enum(LicenseType type) noexcept;
+
   static std::unique_ptr<License> make_license(
       LicenseType type, std::unique_ptr<License> custom = nullptr);
 
