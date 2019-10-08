@@ -19,10 +19,11 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 0
-#define VERSION_PATCH 1
+#define VERSION_PATCH 2
 
 #include <CommandLineArgs.hpp>
 #include <iostream>
+#include "ArchInfo.hpp"
 #include <lyra/lyra.hpp>
 #include "ConfigReader.hpp"
 #include "LicenseWriter.hpp"
@@ -102,6 +103,8 @@ int main(int argc, const char** argv) {
   else if (args.commandLineArgs.showVersion) {
     std::cout << "Licenser version " << VERSION_MAJOR << "." << VERSION_MINOR
               << VERSION_PATCH << "\n";
+              std::cout<<"Licensed under GNU General Public License Version 3\n";
+              std::cout<<"Target Architecture : "<<licenser::get_arch()<<"\n";
   }
 
   else if (args.commandLineArgs.showHelp) {
@@ -109,22 +112,22 @@ int main(int argc, const char** argv) {
   }
 
   else if (args.commandLineArgs.initiate) {
-    using namespace licenser::licenses;
+    
+    // using namespace licenser::licenses;
 
-    auto license_enum = License::enum_from_name(args.license);
-    auto license_ptr = License::make_license(license_enum);
+    // auto license_enum = License::enum_from_name(args.license);
+    // auto license_ptr = License::make_license(license_enum);
 
-    licenser::writer::LicenseWriter writer(std::move(license_ptr));
-    writer.write(args);
-    std::cout << "Initiated LICENSE file in directory " << writer.cwd()
-              << std::endl;
+    // licenser::writer::LicenseWriter writer(std::move(license_ptr));
+    // writer.write(args);
+    // std::cout << "Initiated LICENSE file in directory " << writer.cwd()
+    //           << std::endl;
   }
 
   else if (args.commandLineArgs.update) {
     std::cout << "Reading from config\n";
     licenser::configmgr::ConfigReader::read(".");
-  }
-  else
+  } else
     std::cout << cli;
   return 0;
 }
