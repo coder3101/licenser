@@ -158,7 +158,7 @@ int main(int argc, const char** argv) {
     std::cout << "Short Name ";
     std::cout << std::setw(60) << std::left;
     std::cout << "   License Name";
-    std::cout << std::endl;
+    std::cout <<'\n'<< std::endl;
     for (int start = licenser::licenses::LicenseType::AGPLv3;
          start != licenser::licenses::LicenseType::UNKNOWN; start++) {
       auto enum_type = static_cast<licenser::licenses::LicenseType>(start);
