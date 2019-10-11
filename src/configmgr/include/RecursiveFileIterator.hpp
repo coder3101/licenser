@@ -18,31 +18,22 @@
  */
 
 #pragma once
-#include <string>
-namespace licenser {
-struct ApplicationArgs {
-  ApplicationArgs() : ongoing_project(false) {}
+#include <filesystem>
+#include <functional>
+#include <stack>
 
-  struct CommandLineArgs {
-    CommandLineArgs()
-        : showHelp(false),
-          initiate(false),
-          update(false),
-          showVersion(false),
-          show_licenses(false) {}
-    bool showHelp;
-    bool initiate;
-    bool update;
-    bool showVersion;
-    bool show_licenses;
-  };
-  bool ongoing_project;
-  std::string author;
-  std::string email;
-  unsigned int year = 0;
-  std::string license;
-  std::string project;
+#include "ConfigIgnore.hpp"
+#include "ConfigReader.hpp"
+namespace licenser::configmgr {
+class RecursiveFileIterator {
+ public:
+  RecursiveFileIterator(ConfigReader &reader);
 
-  CommandLineArgs commandLineArgs;
+  std::size_t iterate(
+      std::function<void(std::string path, licenser::ApplicationArgs const &)>);
+
+ private:
+  ConfigReader &reader;
+  std::stack<licenser::configmgr::IgnoreReader> ignoreStack;
 };
-}  // namespace licenser
+}  // namespace licenser::configmgr

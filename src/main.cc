@@ -23,14 +23,15 @@
 
 #include <iomanip>
 #include <iostream>
+
 #include "ArchInfo.hpp"
 #include "CLI.hpp"
 #include "CommandLineArgs.hpp"
 #include "ConfigReader.hpp"
 #include "ConfigWriter.hpp"
 #include "LicenseWriter.hpp"
+#include "RecursiveFileIterator.hpp"
 #include "Util.hpp"
-
 int main(int argc, const char** argv) {
   licenser::ApplicationArgs args;
   auto cli = licenser::get_lyra_cli(args);
@@ -158,7 +159,7 @@ int main(int argc, const char** argv) {
     std::cout << "Short Name ";
     std::cout << std::setw(60) << std::left;
     std::cout << "   License Name";
-    std::cout <<'\n'<< std::endl;
+    std::cout << '\n' << std::endl;
     for (int start = licenser::licenses::LicenseType::AGPLv3;
          start != licenser::licenses::LicenseType::UNKNOWN; start++) {
       auto enum_type = static_cast<licenser::licenses::LicenseType>(start);
@@ -174,8 +175,25 @@ int main(int argc, const char** argv) {
 
   // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
-    std::cout << "Reading from config\n";
-    licenser::configmgr::ConfigReader::read(".");
+    // std::cout << "Reading from config\n";
+    // auto e = licenser::configmgr::ConfigReader::read(".");
+    // if (!e.has_value())
+    //   std::cout << "No config file found here\n";
+    // else {
+    //   auto res = e.value();
+    //   std::cout << "Author : " << res.author << "\n";
+    //   std::cout << "Project : " << res.project << "\n";
+    //   std::cout << "Year : " << res.year << "\n";
+    //   std::cout << "Email : " << res.email << "\n";
+    //   std::cout << "License : " << res.license << "\n";
+    //   std::cout << "On going : " << (res.ongoing_project ? "true" : "false")
+    //             << "\n";
+    // }
+    licenser::configmgr::ConfigReader reader;
+    licenser::configmgr::RecursiveFileIterator iter(reader);
+    std::cout << "Touched " << iter.iterate([](auto a, auto b) {
+      std::cout << "Touching : " << a<<"\n";
+    }) << " Files\n";
   }
   // ***************************** ON UNKNOWN *********************************
   else

@@ -18,9 +18,11 @@
  */
 
 #include "ConfigReader.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+
 #include "ConfigParser.hpp"
 
 namespace licenser::configmgr {
@@ -48,6 +50,8 @@ bool ConfigReader::leave_dir() {
   this->recursive_configs.pop();
   return !this->recursive_configs.empty();
 }
+
+std::string ConfigReader::root_path() const { return this->root; }
 
 std::optional<ApplicationArgs> ConfigReader::read(std::string path) {
   std::optional<ApplicationArgs> ret_val;

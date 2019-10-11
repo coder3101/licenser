@@ -19,33 +19,36 @@
 
 #pragma once
 #include <filesystem>
-#include <optional>
-#include <stack>
+#include <fstream>
 #include <string>
-#include "CommandLineArgs.hpp"
+#include <vector>
 
-#ifndef LICENSER_CONFIG_NAME
-#define LICENSER_CONFIG_NAME ".licenserrc"
-#endif
+#include "ConfigParser.hpp"
+#include "ConfigReader.hpp"
+#define IGNORE_FILE_NAME ".licenserignore"
+
+// Todo: Maybe make this into a way such that not only we ignore
+// directory but also we do not open such directory at first place.
 
 namespace licenser::configmgr {
-class ConfigReader {
+class IgnoreReader {
  public:
-  ConfigReader(std::string path = ".");
-  ApplicationArgs get() const;
+  IgnoreReader(std::string path);
 
-  void enter_dir(std::string new_path);
-  bool leave_dir();
+  IgnoreReader(const IgnoreReader&);
 
-  std::string root_path() const ;
+  bool should_ignore(std::string path_name);
 
-  static std::optional<ApplicationArgs> read(std::string path = ".");
-
-  static bool has_config_file(std::string path = ".");
+  static bool has_ignore_file(std::string directory);
 
  private:
-  std::string root;
-  ApplicationArgs root_config;
-  std::stack<ApplicationArgs> recursive_configs;
+  std::string root_path;
+  std::ifstream stream;
+  std::vector<std::string> ignore_file;
+  std::vector<std::string> ignore_directory;
+  std::vector<std::string> ignore_extension;
+  std::string path_to_file_name(std::string p);
+  std::string path_to_extension_name(std::string p);
+  bool path_inside_directory(std::string directory, std::string path);
 };
 }  // namespace licenser::configmgr
