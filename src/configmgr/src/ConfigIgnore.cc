@@ -20,6 +20,7 @@
 #include "ConfigIgnore.hpp"
 
 #include <iostream>
+#include <cstdlib>
 namespace licenser::configmgr {
 IgnoreReader::IgnoreReader(std::string path) : root_path(path) {
   stream = std::ifstream(
@@ -40,7 +41,11 @@ IgnoreReader::IgnoreReader(std::string path) : root_path(path) {
         // Maybe directory is here
         else if (trimmed[trimmed.size() - 1] == '/') {
           trimmed = trimmed.substr(0, trimmed.size() - 1) +
-                    std::filesystem::path::preferred_separator;
+          #ifdef _WIN32
+                  '\\';
+          #else
+                 std::filesystem::path::preferred_separator;
+          #endif
           ignore_directory.push_back(trimmed);
         }
 
