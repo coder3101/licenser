@@ -1,0 +1,20 @@
+# Directories to ignore
+build/
+.vscode/
+.github/
+.git/
+.ccls-cache/
+docs/
+third_party/
+
+# File Extensions to ignore
+*.json
+*.out
+*.md
+# Files to ignore
+azure-pipelines.yml
+.clang-format
+.gitignore
+.gitmodules
+LICENSE
+CMakeLists.txt

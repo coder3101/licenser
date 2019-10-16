@@ -2,5 +2,3 @@
 .vscode/
 compile_commands.json
 build/
-.licenserrc
-.licenserignore
