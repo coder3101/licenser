@@ -18,32 +18,22 @@
  */
 
 #pragma once
+#include <filesystem>
 #include <fstream>
 #include <memory>
-#include <filesystem>
+#include <string>
 #include <utility>
-
 #include "License.hpp"
+
 #include "CommandLineArgs.hpp"
 namespace licenser::writer {
-class LicenseWriter {
- public:
-  LicenseWriter(std::string name = "LICENSE");
+class HeaderWriter {
+  HeaderWriter(std::string);
+  HeaderWriter(const HeaderWriter&) = delete;
+  HeaderWriter& operator=(const HeaderWriter&) = delete;
+  bool write(ApplicationArgs const&);
+  std::string get_file() const noexcept;
 
-  LicenseWriter(const LicenseWriter&) = delete;
-
-  LicenseWriter& operator=(const LicenseWriter&) = delete;
-
-  void write(ApplicationArgs const&);
-
-  std::string cwd() const;
-
-  std::string get_name() const noexcept;
-
-  ~LicenseWriter();
-
- private:
-  std::string name;
-  std::ofstream stream;
+  ~HeaderWriter();
 };
-}  // namespace licenser
+}  // namespace licenser::writer

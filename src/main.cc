@@ -140,12 +140,7 @@ int main(int argc, const char** argv) {
       if (args.year == licenser::this_year()) args.ongoing_project = true;
 
       licenser::configmgr::ConfigWriter::write(args);
-      using namespace licenser::licenses;
-
-      auto license_enum = License::enum_from_name(args.license);
-      auto license_ptr = License::make_license(license_enum);
-
-      licenser::writer::LicenseWriter writer(std::move(license_ptr));
+      licenser::writer::LicenseWriter writer{};
       writer.write(args);
       std::cout << "Initiated LICENSE file in directory " << writer.cwd()
                 << std::endl;

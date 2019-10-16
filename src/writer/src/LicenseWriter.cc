@@ -22,10 +22,8 @@
 #include "PreProcessor.hpp"
 
 namespace licenser::writer {
-LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
-                             std::string name)
+LicenseWriter::LicenseWriter(std::string name)
     : name(name) {
-  this->type = std::move(t);
   auto path = std::filesystem::path(cwd());
   path.append(name);
   this->stream = std::ofstream(path.string());
@@ -37,8 +35,10 @@ LicenseWriter::LicenseWriter(std::unique_ptr<licenses::License> t,
 
 std::string LicenseWriter::get_name() const noexcept { return this->name; }
 
-void LicenseWriter::write(ApplicationArgs const& app) {
-  this->stream << Preprocessor::parse(type->body_to_string(), app);
+void LicenseWriter::write(ApplicationArgs const& args) {
+  auto license_enum = ::licenser::licenses::License::enum_from_name(args.license);
+  auto license_ptr = ::licenser::licenses::License::make_license(license_enum);
+  this->stream << Preprocessor::parse(license_ptr->body_to_string(), args);
 }
 
 std::string LicenseWriter::cwd() const {

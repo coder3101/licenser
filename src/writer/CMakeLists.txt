@@ -4,6 +4,7 @@ include_directories(src/writer/include)
 
 add_library(writer
             src/writer/src/LicenseWriter.cc
+            src/writer/src/HeaderWriter.cc
             )
 set_target_properties(writer PROPERTIES 
             CXX_STANDARD 17
