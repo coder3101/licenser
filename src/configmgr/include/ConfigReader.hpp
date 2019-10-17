@@ -33,19 +33,13 @@ class ConfigReader {
  public:
   ConfigReader(std::string path = ".");
   ApplicationArgs get() const;
-
-  void enter_dir(std::string new_path);
-  bool leave_dir();
-
   std::string root_path() const ;
 
   static std::optional<ApplicationArgs> read(std::string path = ".");
-
-  static bool has_config_file(std::string path = ".");
+  static bool exists(std::string path = ".");
 
  private:
   std::string root;
   ApplicationArgs root_config;
-  std::stack<ApplicationArgs> recursive_configs;
 };
 }  // namespace licenser::configmgr

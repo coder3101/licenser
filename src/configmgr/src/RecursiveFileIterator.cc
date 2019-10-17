@@ -19,9 +19,11 @@
 
 #include "RecursiveFileIterator.hpp"
 
+#include <iostream>
+
 namespace licenser::configmgr {
 RecursiveFileIterator::RecursiveFileIterator(ConfigReader &reader)
-    : reader(reader) {}
+    : reader(reader), manager(reader) {}
 std::size_t RecursiveFileIterator::iterate(
     std::function<void(std::string file_path,
                        licenser::ApplicationArgs const &)>
@@ -31,29 +33,34 @@ std::size_t RecursiveFileIterator::iterate(
   auto end = std::filesystem::recursive_directory_iterator();
   auto fiterator = std::filesystem::recursive_directory_iterator(Path);
   int last_depth = fiterator.depth();
-  ignoreStack.push(reader.root_path());
 
   while (fiterator != end) {
     while (last_depth > fiterator.depth()) {
-      reader.leave_dir();
-      ignoreStack.pop();
+      manager.leave_dir();
       last_depth--;
     }
     if (fiterator->is_directory()) {
-      if (IgnoreReader::has_ignore_file(fiterator->path().string()))
-        ignoreStack.push(fiterator->path().string());
-      else
-        ignoreStack.push(ignoreStack.top());
-      reader.enter_dir(fiterator->path().string());
+      manager.enter_dir(fiterator->path().string());
       last_depth = fiterator.depth();
       fiterator++;
       continue;
     }
     if (fiterator->is_regular_file()) {
-      if (!ignoreStack.top().should_ignore(fiterator->path().string())) {
-        touch_count++;
-        on_touched(fiterator->path().string(), reader.get());
-      }
+      auto maybe_ignore = manager.get_ignore();
+      auto maybe_touch = manager.get_only();
+
+      if (maybe_touch.has_value()) {
+        if (maybe_touch.value().should_touch(fiterator->path().string())) {
+          touch_count++;
+          on_touched(fiterator->path().string(), manager.get_config().get());
+        }
+      } else if (maybe_ignore.has_value()) {
+        if (!maybe_ignore.value().should_ignore(fiterator->path().string())) {
+          touch_count++;
+          on_touched(fiterator->path().string(), manager.get_config().get());
+        }
+      } else
+        on_touched(fiterator->path().string(), manager.get_config().get());
       last_depth = fiterator.depth();
     }
     fiterator++;

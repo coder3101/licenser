@@ -17,14 +17,14 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "ConfigOnly.hpp"
+
 #include "ConfigIgnore.hpp"
 
-#include <cstdlib>
-#include <iostream>
 namespace licenser::configmgr {
-IgnoreReader::IgnoreReader(std::string path) : root_path(path) {
+OnlyReader::OnlyReader(std::string path) {
   auto stream = std::ifstream(
-      std::filesystem::path(root_path).append(IGNORE_FILE_NAME).string());
+      std::filesystem::path(path).append(ONLY_FILE_NAME).string());
 
   if (stream.is_open() && stream.good()) {
     std::string line;
@@ -36,7 +36,7 @@ IgnoreReader::IgnoreReader(std::string path) : root_path(path) {
       else {
         // Maybe extension filter is here
         if (trimmed[0] == '*' && trimmed[1] == '.')
-          ignore_extension.push_back(trimmed.substr(1));
+          only_extension.push_back(trimmed.substr(1));
 
         // Maybe directory is here
         else if (trimmed[trimmed.size() - 1] == '/') {
@@ -46,48 +46,39 @@ IgnoreReader::IgnoreReader(std::string path) : root_path(path) {
 #else
                     std::filesystem::path::preferred_separator;
 #endif
-          ignore_directory.push_back(trimmed);
+          only_directory.push_back(trimmed);
         }
 
         // Everything else is exact file name
         else
-          ignore_file.push_back(trimmed);
+          only_file.push_back(trimmed);
       }
     }
   } else if (stream.is_open())
     stream.close();
 }
 
-IgnoreReader::IgnoreReader(const IgnoreReader& copy) {
-  this->ignore_directory = copy.ignore_directory;
-  this->ignore_extension = copy.ignore_extension;
-  this->ignore_file = copy.ignore_file;
-  this->root_path = copy.root_path;
+OnlyReader::OnlyReader(const OnlyReader& other) {
+  this->only_directory = other.only_directory;
+  this->only_extension = other.only_extension;
+  this->only_file = other.only_file;
+  this->path = other.path;
 }
+bool OnlyReader::should_touch(std::string path) {
+  for (auto e : only_file)
+    if (e == licenser::PathUtility::path_to_filename(path)) return true;
 
-bool IgnoreReader::should_ignore(std::string path_name) {
-  using namespace licenser;
-  if (PathUtility::path_to_filename(path_name) == LICENSER_CONFIG_NAME ||
-      PathUtility::path_to_filename(path_name) == IGNORE_FILE_NAME)
-    return true;
-  else {
-    // Check for direct files
-    for (auto e : ignore_file)
-      if (e == PathUtility::path_to_filename(path_name)) return true;
+  for (auto e : only_extension)
+    if (e == licenser::PathUtility::path_to_extension_name(path)) return true;
 
-    // Check for extensions
-    for (auto e : ignore_extension)
-      if (e == PathUtility::path_to_extension_name(path_name)) return true;
+  for (auto e : only_directory)
+    if (licenser::PathUtility::path_inside_directory(path, e)) return true;
 
-    // Check for inside directory
-    for (auto e : ignore_directory)
-      if (PathUtility::path_inside_directory(path_name, e)) return true;
-
-    return false;
-  }
+  return false;
 }
-bool IgnoreReader::exists(std::string path) {
-  auto f = std::filesystem::path(path).append(IGNORE_FILE_NAME);
+std::string OnlyReader::root_path() const noexcept { return path; }
+bool OnlyReader::exists(std::string dir) {
+  auto f = std::filesystem::path(dir).append(ONLY_FILE_NAME);
   return std::filesystem::exists(f);
 }
 

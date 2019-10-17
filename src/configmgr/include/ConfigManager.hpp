@@ -19,20 +19,31 @@
 
 #pragma once
 #include <filesystem>
-#include <functional>
+#include <optional>
 #include <stack>
+#include <string>
+#include <utility>
 
-#include "ConfigManager.hpp"
+#include "CommandLineArgs.hpp"
+#include "ConfigIgnore.hpp"
+#include "ConfigOnly.hpp"
+#include "ConfigReader.hpp"
+
 namespace licenser::configmgr {
-class RecursiveFileIterator {
+class ConfigManager {
  public:
-  RecursiveFileIterator(ConfigReader &reader);
-
-  std::size_t iterate(
-      std::function<void(std::string path, licenser::ApplicationArgs const &)>);
+  ConfigManager(ConfigReader);
+  ConfigManager(const ConfigManager&) = delete;
+  ConfigManager& operator=(const ConfigManager&) = delete;
+  void enter_dir(std::string dir);
+  void leave_dir();
+  ConfigReader get_config() const;
+  std::optional<IgnoreReader> get_ignore() const noexcept;
+  std::optional<OnlyReader> get_only() const noexcept;
 
  private:
-  ConfigReader &reader;
-  ConfigManager manager;
+  std::stack<ConfigReader> reader_stack;
+  std::stack<IgnoreReader> ignore_stack;
+  std::stack<OnlyReader> only_stack;
 };
 }  // namespace licenser::configmgr

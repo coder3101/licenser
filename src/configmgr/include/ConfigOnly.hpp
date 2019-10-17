@@ -17,22 +17,35 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Only reader gets priority over IgnoreReader
 #pragma once
 #include <filesystem>
-#include <functional>
-#include <stack>
+#include <fstream>
+#include <string>
+#include <vector>
 
-#include "ConfigManager.hpp"
+#include "ConfigParser.hpp"
+#include "ConfigReader.hpp"
+#include "path_utility.hpp"
+
+#define ONLY_FILE_NAME ".licenseronly"
+
 namespace licenser::configmgr {
-class RecursiveFileIterator {
+class OnlyReader {
  public:
-  RecursiveFileIterator(ConfigReader &reader);
+  OnlyReader(std::string);
+  OnlyReader(const OnlyReader&);
+  bool should_touch(std::string);
 
-  std::size_t iterate(
-      std::function<void(std::string path, licenser::ApplicationArgs const &)>);
+  std::string root_path() const noexcept;
+  static bool exists(std::string dir);
 
  private:
-  ConfigReader &reader;
-  ConfigManager manager;
+
+ std::string path;
+ std::vector<std::string> only_file;
+ std::vector<std::string> only_directory;
+ std::vector<std::string> only_extension;
+
 };
 }  // namespace licenser::configmgr

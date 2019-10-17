@@ -33,22 +33,10 @@ ConfigReader::ConfigReader(std::string path) : root(path) {
   else
     throw std::runtime_error("The current path " + path +
                              "does not contain a licenser configuration file.");
-  this->recursive_configs.push(this->root_config);
 }
 
-ApplicationArgs ConfigReader::get() const { return recursive_configs.top(); }
-
-void ConfigReader::enter_dir(std::string new_path) {
-  auto mxs = ConfigReader::read(new_path);
-  if (mxs.has_value())
-    this->recursive_configs.push(mxs.value());
-  else
-    this->recursive_configs.push(this->recursive_configs.top());
-}
-
-bool ConfigReader::leave_dir() {
-  this->recursive_configs.pop();
-  return !this->recursive_configs.empty();
+ApplicationArgs ConfigReader::get() const {
+  return root_config;
 }
 
 std::string ConfigReader::root_path() const { return this->root; }
@@ -62,14 +50,14 @@ std::optional<ApplicationArgs> ConfigReader::read(std::string path) {
 
   std::ifstream config;
   config.open(path);
-  if (config.is_open()) {
+  if (config.is_open() && config.good()) {
     ConfigParser parser(config);
     ret_val = parser.get_application_args();
   }
   return ret_val;
 }
 
-bool ConfigReader::has_config_file(std::string path) {
+bool ConfigReader::exists(std::string path) {
   auto f = std::filesystem::path(path).append(LICENSER_CONFIG_NAME);
   return std::filesystem::exists(f);
 }

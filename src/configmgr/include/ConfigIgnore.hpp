@@ -25,6 +25,7 @@
 
 #include "ConfigParser.hpp"
 #include "ConfigReader.hpp"
+#include "path_utility.hpp"
 #define IGNORE_FILE_NAME ".licenserignore"
 
 // Todo: Maybe make this into a way such that not only we ignore
@@ -39,16 +40,13 @@ class IgnoreReader {
 
   bool should_ignore(std::string path_name);
 
-  static bool has_ignore_file(std::string directory);
+  static bool exists(std::string directory);
 
  private:
   std::string root_path;
-  std::ifstream stream;
   std::vector<std::string> ignore_file;
   std::vector<std::string> ignore_directory;
   std::vector<std::string> ignore_extension;
-  std::string path_to_file_name(std::string p);
-  std::string path_to_extension_name(std::string p);
-  bool path_inside_directory(std::string directory, std::string path);
+ 
 };
 }  // namespace licenser::configmgr

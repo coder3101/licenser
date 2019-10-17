@@ -18,21 +18,21 @@
  */
 
 #pragma once
+
 #include <filesystem>
-#include <functional>
-#include <stack>
+#include <string>
 
-#include "ConfigManager.hpp"
-namespace licenser::configmgr {
-class RecursiveFileIterator {
- public:
-  RecursiveFileIterator(ConfigReader &reader);
+namespace licenser {
+struct PathUtility {
+  static std::string path_to_filename(std::string path) {
+    return std::filesystem::path(path).filename().string();
+  }
 
-  std::size_t iterate(
-      std::function<void(std::string path, licenser::ApplicationArgs const &)>);
-
- private:
-  ConfigReader &reader;
-  ConfigManager manager;
+  static std::string path_to_extension_name(std::string p) {
+    return std::filesystem::path(p).extension().string();
+  }
+  static bool path_inside_directory(std::string path, std::string directory) {
+    return path.find(directory) != std::string::npos;
+  }
 };
-}  // namespace licenser::configmgr
+}  // namespace licenser

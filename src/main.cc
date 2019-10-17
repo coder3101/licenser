@@ -56,7 +56,7 @@ int main(int argc, const char** argv) {
   }
   //**************************** ON INIT ************************************
   else if (args.commandLineArgs.initiate) {
-    auto res = licenser::configmgr::ConfigReader::has_config_file(".");
+    auto res = licenser::configmgr::ConfigReader::exists(".");
     if (res) {
       std::cout << "A Configuration file named " << LICENSER_CONFIG_NAME
                 << " already exists\n";
