@@ -23,17 +23,18 @@
 #include <memory>
 #include <string>
 #include <utility>
-#include "License.hpp"
+#include <vector>
 
+#include "License.hpp"
 #include "CommandLineArgs.hpp"
+
 namespace licenser::writer {
 class HeaderWriter {
-  HeaderWriter(std::string);
+  HeaderWriter(std::vector<std::string> const &);
   HeaderWriter(const HeaderWriter&) = delete;
   HeaderWriter& operator=(const HeaderWriter&) = delete;
-  bool write(ApplicationArgs const&);
+  bool write(licenser::ApplicationArgs const&);
   std::string get_file() const noexcept;
-
   ~HeaderWriter();
 };
 }  // namespace licenser::writer
