@@ -51,16 +51,28 @@ std::size_t RecursiveFileIterator::iterate(
 
       if (maybe_touch.has_value()) {
         if (maybe_touch.value().should_touch(fiterator->path().string())) {
-          touch_count++;
-          on_touched(fiterator->path().string(), manager.get_config().get());
+          if (maybe_ignore.has_value() &&
+              maybe_ignore->should_ignore(
+                  fiterator->path().string())) { /* Nothing Doing */
+          } else {
+            touch_count++;
+            on_touched(fiterator->path().string(), manager.get_config().get());
+          }
         }
-      } else if (maybe_ignore.has_value()) {
+      }
+
+      else if (maybe_ignore.has_value()) {
         if (!maybe_ignore.value().should_ignore(fiterator->path().string())) {
           touch_count++;
           on_touched(fiterator->path().string(), manager.get_config().get());
         }
-      } else
+      } 
+      
+      else {
         on_touched(fiterator->path().string(), manager.get_config().get());
+        touch_count++;
+      }
+      
       last_depth = fiterator.depth();
     }
     fiterator++;
