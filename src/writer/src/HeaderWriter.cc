@@ -21,7 +21,11 @@
 
 namespace licenser::writer{
     HeaderWriter::HeaderWriter(std::vector<std::string> const& vals){}
-    bool HeaderWriter::write(licenser::ApplicationArgs const&) {}
-    std::string HeaderWriter::get_file() const noexcept {}
+    bool HeaderWriter::write(licenser::ApplicationArgs const&) {
+        return false;
+    }
+    std::string HeaderWriter::get_file() const noexcept {
+        return "N/A";
+    }
     HeaderWriter::~HeaderWriter() {}
 }
