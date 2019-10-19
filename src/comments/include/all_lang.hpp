@@ -17,35 +17,29 @@
  * along with licenser.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Only reader gets priority over IgnoreReader
 #pragma once
-#include <filesystem>
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "ConfigParser.hpp"
-#include "ConfigReader.hpp"
-#include "PathUtility.hpp"
-
-#define ONLY_FILE_NAME ".licenseronly"
-
-namespace licenser::configmgr {
-class OnlyReader {
- public:
-  OnlyReader(std::string);
-  OnlyReader(const OnlyReader&);
-  bool should_touch(std::string);
-
-  std::string root_path() const noexcept;
-  static bool exists(std::string dir);
-
- private:
-
- std::string path;
- std::vector<std::string> only_file;
- std::vector<std::string> only_directory;
- std::vector<std::string> only_extension;
-
-};
-}  // namespace licenser::configmgr
+#include "ADA.hpp"
+#include "APPLESCRIPT.hpp"
+#include "ASM.hpp"
+#include "C.hpp"
+#include "CXX.hpp"
+#include "GO.hpp"
+#include "HASKELL.hpp"
+#include "HTML.hpp"
+#include "JAVA.hpp"
+#include "JAVASCRIPT.hpp"
+#include "KOTLIN.hpp"
+#include "LUA.hpp"
+#include "MATLAB.hpp"
+#include "OCAML.hpp"
+#include "PERL.hpp"
+#include "PHP.hpp"
+#include "POWERSHELL.hpp"
+#include "PYTHON.hpp"
+#include "RUBY.hpp"
+#include "RUST.hpp"
+#include "SHELL.hpp"
+#include "SQL.hpp"
+#include "SWIFT.hpp"
+#include "XML.hpp"
+#include "YAML.hpp"

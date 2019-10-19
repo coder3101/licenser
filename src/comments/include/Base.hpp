@@ -18,35 +18,19 @@
  */
 
 #pragma once
-#include <filesystem>
-#include <fstream>
 #include <string>
-#include <vector>
 
-#include "ConfigParser.hpp"
-#include "ConfigReader.hpp"
-#include "PathUtility.hpp"
-#define IGNORE_FILE_NAME ".licenserignore"
-
-// Todo: Maybe make this into a way such that not only we ignore
-// directory but also we do not open such directory at first place.
-
-namespace licenser::configmgr {
-class IgnoreReader {
+#define NULL_CHAR '\0'
+#define DEFAULT_DECORATOR_ASTRICK '*'
+#define DEFAULT_DECORATOR_POUND '#'
+namespace licenser::comments {
+class CommentBase {
  public:
-  IgnoreReader(std::string path);
-
-  IgnoreReader(const IgnoreReader&);
-
-  bool should_ignore(std::string path_name);
-
-  static bool exists(std::string directory);
-
- private:
-  std::string root_path;
-  std::vector<std::string> ignore_file;
-  std::vector<std::string> ignore_directory;
-  std::vector<std::string> ignore_extension;
- 
+  virtual std::string singleline_begin() = 0;
+  virtual char multiline_decorator() = 0;
+  virtual std::string multiline_begin() = 0;
+  virtual std::string multiline_end() = 0;
+  virtual bool has_multiline() = 0;
+  virtual ~CommentBase() = default;
 };
-}  // namespace licenser::configmgr
+}  // namespace licenser::comments

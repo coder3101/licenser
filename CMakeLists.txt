@@ -73,6 +73,7 @@ include_directories(src/utility)
 include(src/licenses/CMakeLists.txt)
 include(src/configmgr/CMakeLists.txt)
 include(src/writer/CMakeLists.txt)
+include(src/comments/CMakeLists.txt)
 
 # Static Modules of licenser
 target_link_libraries(licenser PRIVATE licenses)
