@@ -27,8 +27,10 @@
 #include "ArchInfo.hpp"
 #include "CLI.hpp"
 #include "CommandLineArgs.hpp"
+#include "CommentBuilder.hpp"
 #include "ConfigReader.hpp"
 #include "ConfigWriter.hpp"
+#include "Extensions.hpp"
 #include "LicenseWriter.hpp"
 #include "RecursiveFileIterator.hpp"
 #include "Util.hpp"
@@ -187,11 +189,34 @@ int main(int argc, const char** argv) {
     licenser::configmgr::ConfigReader reader;
     licenser::configmgr::RecursiveFileIterator iter(reader);
     std::cout << "Touched " << iter.iterate([](auto a, auto b) {
-      std::cout << "Touching : " << a<<"\n";
+      std::cout << "Touching : " << a << "\n";
     }) << " Files\n";
   }
   // ***************************** ON UNKNOWN *********************************
-  else
-    std::cout << cli;
+  else {
+    std::cout << "Nothing to do. For all commands please run with --help\n";
+
+//     std::string raw = R"(This is a sample header with following conditions :
+// 1. Never copy this work
+
+// 2. Never cheat on someone
+
+// 3. Never give up
+      
+// For more information about our work please head to
+// www.naraclan.com. 
+// Have a nice day;)";
+
+//     std::string ext = ".ml";
+//     auto r = licenser::comments::Extensions::to_lang(ext);
+//     auto c = licenser::comments::Extensions::to_lang(ext);
+//     if (r == nullptr)
+//       std::cout << "nullptr\n";
+//     else
+//       std::cout << licenser::comments::CommentBuilder::from_header(std::move(r),
+//                                                                    raw, true)
+//                 << licenser::comments::CommentBuilder::from_header(std::move(c),
+//                                                                    raw, false);
+  }
   return 0;
 }

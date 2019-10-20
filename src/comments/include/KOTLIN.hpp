@@ -25,7 +25,7 @@ class Kotlin final : public CommentBase {
   std::string singleline_begin() override { return "//"; }
   char multiline_decorator() override { return DEFAULT_DECORATOR_ASTRICK; }
   std::string multiline_begin() override { return "/*"; }
-  std::string multiline_end() override { return "*\\"; }
+  std::string multiline_end() override { return "*/"; }
   bool has_multiline() override { return true; }
 };
 }  // namespace licenser::comments
