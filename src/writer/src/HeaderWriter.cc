@@ -1,20 +1,20 @@
 /*
 * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
 *  
-* This file is part of licenser.
+* This file is part of Licenser.
 *  
-* licenser is free software: you can redistribute it and/or modify
+* Licenser is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *  
-* licenser is distributed in the hope that it will be useful,
+* Licenser is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *  
 * You should have received a copy of the GNU General Public License
-* along with licenser.  If not, see <http://www.gnu.org/licenses/>.
+* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -32,8 +32,8 @@ namespace licenser::writer {
 HeaderWriter::HeaderWriter(std::string path) {
   std::filesystem::path p(path);
   this->old_path = p.string();
-  std::string fname = p.filename();
-  this->new_temp_path = p.replace_filename(TEMP_FILE_PREFIX + fname);
+  std::string fname = p.filename().string();
+  this->new_temp_path = p.replace_filename(TEMP_FILE_PREFIX + fname).string();
 }
 bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
   std::filesystem::path xp(this->old_path);
@@ -95,11 +95,12 @@ bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
     std::string final_code = header_ + pure_code;
     new_writer.write(final_code.c_str(), final_code.size());
 
+    old_reader.close();
+    new_writer.close();
+
     std::filesystem::remove(std::filesystem::path(this->old_path));
     std::filesystem::rename(std::filesystem::path(this->new_temp_path),
                             std::filesystem::path(this->old_path));
-    old_reader.close();
-    new_writer.close();
     return true;
   }
   this->error_cause =

@@ -1,26 +1,26 @@
 /*
 * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
 *  
-* This file is part of licenser.
+* This file is part of Licenser.
 *  
-* licenser is free software: you can redistribute it and/or modify
+* Licenser is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *  
-* licenser is distributed in the hope that it will be useful,
+* Licenser is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *  
 * You should have received a copy of the GNU General Public License
-* along with licenser.  If not, see <http://www.gnu.org/licenses/>.
+* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
 #define VERSION_MAJOR 0
-#define VERSION_MINOR 0
-#define VERSION_PATCH 2
+#define VERSION_MINOR 1
+#define VERSION_PATCH 0
 
 #include <iomanip>
 #include <iostream>
@@ -174,8 +174,13 @@ int main(int argc, const char** argv) {
 
   // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
+    if(!licenser::configmgr::ConfigReader::exists()){
+      std::cout<<"Error, this directory does not have .licenserrc file\n";
+      exit(1);
+    }
     licenser::configmgr::ConfigReader reader;
     licenser::configmgr::RecursiveFileIterator iter(reader);
+
     int count = 0;
     auto total_touch = iter.iterate([args, &count](auto a, auto b) {
       licenser::writer::HeaderWriter h(a);
