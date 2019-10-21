@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(licenser VERSION 0.02)
+project(licenser VERSION 0.10)
 add_executable(licenser src/main.cc)
 
 set(DEFAULT_CMAKE_BUILD_TYPE Release)
