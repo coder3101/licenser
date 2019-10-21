@@ -340,7 +340,7 @@ a modified version of its Corresponding Source.  The information must
 suffice to ensure that the continued functioning of the modified object
 code is in no case prevented or interfered with solely because
 modification has been made.)i_like_naruto"
-R"i_like_naruto(
+         R"i_like_naruto(
   If you convey an object code work under this section in, or with, or
 specifically for use in, a User Product, and the conveying occurs as
 part of a transaction in which the right of possession and use of the
@@ -643,7 +643,7 @@ reviewing courts shall apply local law that most closely approximates
 an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.)i_like_naruto"
-R"i_like_naruto(
+         R"i_like_naruto(
                      END OF TERMS AND CONDITIONS
 
             How to Apply These Terms to Your New Programs
@@ -703,8 +703,7 @@ Public License instead of this License.  But first, please read
 }
 
 std::string GPLv3_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
+  return R"i_like_naruto(Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
  
 This file is part of %PROJECT%.
  
@@ -719,9 +718,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
  
 You should have received a copy of the GNU General Public License
-along with %PROJECT%.  If not, see <http://www.gnu.org/licenses/>.
- 
-)i_like_naruto";
+along with %PROJECT%.  If not, see <http://www.gnu.org/licenses/>.)i_like_naruto";
 }
 
 std::string GPLv3_::name() const {

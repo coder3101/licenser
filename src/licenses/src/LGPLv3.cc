@@ -193,8 +193,7 @@ Library.
 }
 
 std::string LGPLv3_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
+  return R"i_like_naruto(Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
  
 %PROJECT% is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -207,9 +206,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
  
 You should have received a copy of the GNU Lesser General Public License
-along with %PROJECT%. If not, see <http://www.gnu.org/licenses/>.
-
-)i_like_naruto";
+along with %PROJECT%. If not, see <http://www.gnu.org/licenses/>.)i_like_naruto";
 }
 
 std::string LGPLv3_::name() const {

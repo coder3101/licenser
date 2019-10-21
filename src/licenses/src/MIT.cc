@@ -50,13 +50,10 @@ SOFTWARE.
 }
 
 std::string MIT_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
+  return R"i_like_naruto(Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
 
 This software is released under the MIT License.
-https://opensource.org/licenses/MIT
-
-)i_like_naruto";
+https://opensource.org/licenses/MIT)i_like_naruto";
 }
 
 std::string MIT_::name() const { return "MIT License"; }

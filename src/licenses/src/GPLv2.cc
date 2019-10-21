@@ -367,8 +367,7 @@ Public License instead of this License.
 }
 
 std::string GPLv2_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
+  return R"i_like_naruto(Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
  
 This file is part of %PROJECT%.
  
@@ -383,9 +382,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with %PROJECT%.  If not, see <http://www.gnu.org/licenses/>.
-
-)i_like_naruto";
+along with %PROJECT%.  If not, see <http://www.gnu.org/licenses/>.)i_like_naruto";
 }
 std::string GPLv2_::name() const {
   return "GNU General Public License version 2";

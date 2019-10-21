@@ -389,16 +389,13 @@ Creative Commons Notice
 }
 
 std::string CC_BY_NC_SA_3_::header_to_string() const {
-  return R"i_like_naruto(
-%PROJECT% (c) by %AUTHOR%
+  return R"i_like_naruto(%PROJECT% (c) by %AUTHOR%
 
 %PROJECT% is licensed under a
 Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
 You should have received a copy of the license along with this
-work.  If not, see <http://creativecommons.org/licenses/by-nc-sa/3.0/>.
-
-)i_like_naruto";
+work.  If not, see <http://creativecommons.org/licenses/by-nc-sa/3.0/>.)i_like_naruto";
 }
 
 std::string CC_BY_NC_SA_3_::name() const {

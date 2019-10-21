@@ -466,16 +466,13 @@ Creative Commons may be contacted at creativecommons.org.
 
 
 std::string CC_BY_NC_SA_4_::header_to_string() const {
-  return R"i_like_naruto(
-%PROJECT% (c) by %AUTHOR%
+  return R"i_like_naruto(%PROJECT% (c) by %AUTHOR%
 
 %PROJECT% is licensed under a
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 You should have received a copy of the license along with this
-work.  If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.
-
-)i_like_naruto";
+work.  If not, see <http://creativecommons.org/licenses/by-nc-sa/4.0/>.)i_like_naruto";
 }
 
 std::string CC_BY_NC_SA_4_::name() const {

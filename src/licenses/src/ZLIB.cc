@@ -47,8 +47,7 @@ freely, subject to the following restrictions:
 }
 
 std::string ZLIB_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
+  return R"i_like_naruto(Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
  
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -64,9 +63,7 @@ freely, subject to the following restrictions:
    appreciated but is not required.
 2. Altered source versions must be plainly marked as such, and must not be
    misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
- 
-)i_like_naruto";
+3. This notice may not be removed or altered from any source distribution.)i_like_naruto";
 }
 
 std::string ZLIB_::name() const{ 

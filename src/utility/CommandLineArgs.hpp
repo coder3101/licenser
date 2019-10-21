@@ -29,12 +29,14 @@ struct ApplicationArgs {
           initiate(false),
           update(false),
           showVersion(false),
-          show_licenses(false) {}
+          show_licenses(false),
+          prefer_multiline(false) {}
     bool showHelp;
     bool initiate;
     bool update;
     bool showVersion;
     bool show_licenses;
+    bool prefer_multiline;
   };
   bool ongoing_project;
   std::string author;

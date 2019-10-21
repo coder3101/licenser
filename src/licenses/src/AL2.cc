@@ -230,8 +230,7 @@ std::string AL2_::body_to_string() const {
 }
 
 std::string AL2_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
+  return R"i_like_naruto(Copyright %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -243,9 +242,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.
-        
-)i_like_naruto";
+limitations under the License.)i_like_naruto";
 }
 
 std::string AL2_::name() const { return "Apache License version 2"; }

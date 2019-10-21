@@ -51,11 +51,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 std::string BSD2_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL% . All rights reserved.
+  return R"i_like_naruto(Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL% . All rights reserved.
 Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
-)i_like_naruto";
+license that can be found in the LICENSE file.)i_like_naruto";
 }
 
 std::string BSD2_::name() const { return "BSD 2-clause License"; }

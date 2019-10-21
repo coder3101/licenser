@@ -24,7 +24,6 @@ AGPLv3_::AGPLv3_() : License(LicenseType::AGPLv3) {}
 
 std::string AGPLv3_::body_to_string() const {
   return R"i_like_naruto(
-
                         GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
 
@@ -692,8 +691,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 }
 
 std::string AGPLv3_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
+  return R"i_like_naruto(Copyright (C) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL%
 
 This Program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -706,9 +704,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-)i_like_naruto";
+along with this program.  If not, see <https://www.gnu.org/licenses/>.)i_like_naruto";
 }
 
 std::string AGPLv3_::name() const {

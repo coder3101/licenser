@@ -69,6 +69,12 @@ auto get_lyra_cli(licenser::ApplicationArgs &args) {
              .optional()
              .choices(licenser::lambdas::is_non_empty) |
 
+         lyra::opt(args.commandLineArgs
+                       .prefer_multiline)["-ml"]["--prefer-multiline"](
+             "If this flag is set when calling --update the license headers "
+             "are writer with multi-line comment if langauag allows it.")
+             .optional() |
+
          lyra::opt(args.commandLineArgs.showVersion)["-v"]["--version"](
              "Shows the version of the application")
              .optional();

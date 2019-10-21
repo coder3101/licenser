@@ -30,11 +30,19 @@
 
 namespace licenser::writer {
 class HeaderWriter {
-  HeaderWriter(std::vector<std::string> const &);
+  public:
+  HeaderWriter(std::string path);
   HeaderWriter(const HeaderWriter&) = delete;
   HeaderWriter& operator=(const HeaderWriter&) = delete;
-  bool write(licenser::ApplicationArgs const&);
-  std::string get_file() const noexcept;
+  bool write(licenser::ApplicationArgs const&, bool);
+
+  std::string get_error_cause() const noexcept;
   ~HeaderWriter();
+  private:
+  std::string old_path;
+  std::string new_temp_path;
+  std::ofstream new_writer;
+  std::ifstream old_reader;
+  std::string error_cause;
 };
 }  // namespace licenser::writer

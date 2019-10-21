@@ -149,17 +149,14 @@ express Statement of Purpose.
 }
 
 std::string CC0_1_::header_to_string() const {
-  return R"i_like_naruto(
-%PROJECT% (c) by %AUTHOR%
+  return R"i_like_naruto(%PROJECT% (c) by %AUTHOR%
  
 To the extent possible under law, the person who associated CC0 with
 %PROJECT% has waived all copyright and related or neighboring rights
 to %PROJECT%.
 
 You should have received a copy of the CC0 legalcode along with this
-work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-        
-)i_like_naruto";
+work.  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.)i_like_naruto";
 }
 
 std::string CC0_1_::name() const {

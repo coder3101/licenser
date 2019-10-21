@@ -401,15 +401,11 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 }
 
 std::string MPLv2_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
+  return R"i_like_naruto(Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR%
 
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
-file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
-
-)i_like_naruto";
+file, You can obtain one at http://mozilla.org/MPL/2.0/.)i_like_naruto";
 }
 
 std::string MPLv2_::name() const { return "Mozilla Public License version 2"; }

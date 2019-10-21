@@ -49,11 +49,9 @@ THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 std::string BSL1_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL% . All rights reserved.
+  return R"i_like_naruto(Copyright (c) %YEAR_FROM%-%YEAR_TO% %AUTHOR% %EMAIL% . All rights reserved.
 Use of this source code is governed by Boost Software License
-that can be found in the LICENSE file.
-)i_like_naruto";
+that can be found in the LICENSE file.)i_like_naruto";
 }
 
 std::string BSL1_::name() const {

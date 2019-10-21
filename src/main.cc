@@ -31,6 +31,7 @@
 #include "ConfigReader.hpp"
 #include "ConfigWriter.hpp"
 #include "Extensions.hpp"
+#include "HeaderWriter.hpp"
 #include "LicenseWriter.hpp"
 #include "RecursiveFileIterator.hpp"
 #include "Util.hpp"
@@ -172,51 +173,21 @@ int main(int argc, const char** argv) {
 
   // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
-    // std::cout << "Reading from config\n";
-    // auto e = licenser::configmgr::ConfigReader::read(".");
-    // if (!e.has_value())
-    //   std::cout << "No config file found here\n";
-    // else {
-    //   auto res = e.value();
-    //   std::cout << "Author : " << res.author << "\n";
-    //   std::cout << "Project : " << res.project << "\n";
-    //   std::cout << "Year : " << res.year << "\n";
-    //   std::cout << "Email : " << res.email << "\n";
-    //   std::cout << "License : " << res.license << "\n";
-    //   std::cout << "On going : " << (res.ongoing_project ? "true" : "false")
-    //             << "\n";
-    // }
     licenser::configmgr::ConfigReader reader;
     licenser::configmgr::RecursiveFileIterator iter(reader);
-    std::cout << "Touched " << iter.iterate([](auto a, auto b) {
-      std::cout << "Touching : " << a << "\n";
-    }) << " Files\n";
+    int count = 0;
+    auto total_touch = iter.iterate([args, &count](auto a, auto b) {
+      licenser::writer::HeaderWriter h(a);
+      if (!h.write(b, args.commandLineArgs.prefer_multiline))
+        count++, std::cout << "[WARNING] Skipped " << a << " because "
+                           << h.get_error_cause() << std::endl;
+    });
+
+    std::cout << "Update Affected " << total_touch - count << " Files\n";
   }
   // ***************************** ON UNKNOWN *********************************
   else {
     std::cout << "Nothing to do. For all commands please run with --help\n";
-
-//     std::string raw = R"(This is a sample header with following conditions :
-// 1. Never copy this work
-
-// 2. Never cheat on someone
-
-// 3. Never give up
-      
-// For more information about our work please head to
-// www.naraclan.com. 
-// Have a nice day;)";
-
-//     std::string ext = ".ml";
-//     auto r = licenser::comments::Extensions::to_lang(ext);
-//     auto c = licenser::comments::Extensions::to_lang(ext);
-//     if (r == nullptr)
-//       std::cout << "nullptr\n";
-//     else
-//       std::cout << licenser::comments::CommentBuilder::from_header(std::move(r),
-//                                                                    raw, true)
-//                 << licenser::comments::CommentBuilder::from_header(std::move(c),
-//                                                                    raw, false);
   }
   return 0;
 }

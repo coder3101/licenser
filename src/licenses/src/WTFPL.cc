@@ -42,12 +42,9 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 }
 
 std::string WTFPL_::header_to_string() const {
-  return R"i_like_naruto(
-Copyright %YEAR_FROM%-%YEAR_TO% %AUTHOR%.
+  return R"i_like_naruto(Copyright %YEAR_FROM%-%YEAR_TO% %AUTHOR%.
 Use of this source code is governed by the WTFPL
-license that can be found in the LICENSE file.
-
-)i_like_naruto";
+license that can be found in the LICENSE file.)i_like_naruto";
 }
 
 std::string WTFPL_::name() const {
