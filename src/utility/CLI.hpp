@@ -71,7 +71,7 @@ auto get_lyra_cli(licenser::ApplicationArgs &args) {
              .choices(licenser::lambdas::is_non_empty) |
 
          lyra::opt(args.commandLineArgs
-                       .prefer_multiline)["-ml"]["--prefer-multiline"](
+                       .prefer_multiline)["-m"]["--prefer-multiline"](
              "If this flag is set when calling --update the license headers "
              "are writer with multi-line comment if langauag allows it.")
              .optional() |

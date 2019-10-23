@@ -174,8 +174,13 @@ int main(int argc, const char** argv) {
 
   // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
+    if(!licenser::configmgr::ConfigReader::exists()){
+      std::cout<<"Error, this directory does not have .licenserrc file\n";
+      exit(1);
+    }
     licenser::configmgr::ConfigReader reader;
     licenser::configmgr::RecursiveFileIterator iter(reader);
+
     int count = 0;
     auto total_touch = iter.iterate([args, &count](auto a, auto b) {
       licenser::writer::HeaderWriter h(a);

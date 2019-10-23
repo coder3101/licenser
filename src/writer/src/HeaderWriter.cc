@@ -95,11 +95,12 @@ bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
     std::string final_code = header_ + pure_code;
     new_writer.write(final_code.c_str(), final_code.size());
 
+    old_reader.close();
+    new_writer.close();
+
     std::filesystem::remove(std::filesystem::path(this->old_path));
     std::filesystem::rename(std::filesystem::path(this->new_temp_path),
                             std::filesystem::path(this->old_path));
-    old_reader.close();
-    new_writer.close();
     return true;
   }
   this->error_cause =
