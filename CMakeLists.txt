@@ -99,3 +99,9 @@ if(ENABLE_TESTS)
   include(tests/configmgr/CMakeLists.txt)
 
 endif()
+
+# Installing using make install
+
+install(TARGETS licenser
+        RUNTIME DESTINATION bin
+        )
