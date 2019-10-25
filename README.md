@@ -19,43 +19,16 @@ Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quic
 
 
 ## Usage
-> Coming Soon
+> type licenser --help for the time being
 
-## Pre-built Binaries
-> Coming Soon
+## Installation
+- [Arch Linux (AUR)](https://aur.archlinux.org/packages/licenser/)
+- Snap (Coming Soon)
+- Flatpack (Coming soon)
+- AppImage (Coming soon)
+- Window's Installer (Coming Soon)
+- Window's choco package (Coming Soon)
 
-
-## Building from Source
-
-- **Linux**
-  Here is the recipe for compiling the project
-  
-  ````bash
-  git clone https://github.com/coder3101/licenser &&
-  git submodule update --init --recursive &&
-  mkdir build && cd build &&
-  cmake -DENABLE_TESTS=Off .. &&
-  ninja -j4
-  ````
-  
-
-  Enjoy the food ! located at `${PROJECT_ROOT}/build/licenser`
-
-- **macOS**
-
-  > Note : At least macOS 10.15 or higher is required with X Code 11 or above
-
-  - Make sure that CMake picks Apple Clang 11.0 as the compiler.
-  - Set the compiler by exporting `CC` and `CXX`environment variables before generating build file
-  - Now Go ahead and follow the same steps as mentioned in the Linux Section
-
-- **Windows**
-
-  >  Visual Studio 2017 or higher is required with CMake at least 3.12
-
-  - Clone the Project and Its submodules as mentioned in the above steps of Linux
-  - `cmake -G "Visual Studio 17" -DENABLE_TESTS=Off .`
-  - `cmake --build . --config Release` or `msbuild licenser.sln`
 
 ## License
 
