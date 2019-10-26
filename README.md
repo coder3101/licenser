@@ -26,7 +26,7 @@ Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quic
 - Snap (Coming Soon)
 - Flatpack (Coming soon)
 - AppImage (Coming soon)
-- Window's Installer (Coming Soon)
+- [Window's Installer](https://github.com/coder3101/licenser/releases)
 - Window's choco package (Coming Soon)
 
 
