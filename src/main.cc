@@ -1,14 +1,14 @@
 /*
-* Copyright (c) 2019 Mohammad Ashar Khan <ashar786khan@gmail.com>
-* 
-* Licenser is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-* 
-* Enjoy the software but don't blame me if you blow up things !!
-* 
-*/
+ * Copyright (c) 2019 Mohammad Ashar Khan <ashar786khan@gmail.com>
+ *
+ * Licenser is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Enjoy the software but don't blame me if you blow up things !!
+ *
+ */
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 2
@@ -27,8 +27,11 @@
 #include "HeaderWriter.hpp"
 #include "LicenseWriter.hpp"
 #include "RecursiveFileIterator.hpp"
+#include "SigHandlers.hpp"
 #include "Util.hpp"
+
 int main(int argc, const char** argv) {
+  licenser::RegisterInterruptSignalHandler();
   licenser::ApplicationArgs args;
   auto cli = licenser::get_lyra_cli(args);
   auto result = cli.parse({argc, argv});
