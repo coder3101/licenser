@@ -1,6 +1,6 @@
 [Setup]
 AppName=Licenser
-AppVersion=0.11-2
+AppVersion=0.20-1
 WizardStyle=modern
 DefaultDirName={autopf}\Licenser
 DefaultGroupName=Licenser
