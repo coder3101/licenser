@@ -1,26 +1,26 @@
 /*
-* Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
-*  
-* This file is part of Licenser.
-*  
-* Licenser is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*  
-* Licenser is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*  
-* You should have received a copy of the GNU General Public License
-* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
+ *
+ * This file is part of Licenser.
+ *
+ * Licenser is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Licenser is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "HeaderWriter.hpp"
 
 #include "CommentBuilder.hpp"
+#include "ConfigCustomHeader.hpp"
 #include "ConfigReader.hpp"
 #include "Extensions.hpp"
 #include "HeaderRemover.hpp"
@@ -35,10 +35,12 @@ HeaderWriter::HeaderWriter(std::string path) {
   std::string fname = p.filename().string();
   this->new_temp_path = p.replace_filename(TEMP_FILE_PREFIX + fname).string();
 }
-bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
+bool HeaderWriter::write(licenser::ApplicationArgs const& arg, std::string hdr,
+                         bool multiline) {
   std::filesystem::path xp(this->old_path);
 
-  if (xp.filename() == LICENSER_CONFIG_NAME || xp.filename() == "LICENSE")
+  if (xp.filename() == LICENSER_CONFIG_NAME || xp.filename() == "LICENSE" ||
+      xp.filename() == "LICENSE.txt" || xp.filename() == CUSTOM_HEADER_NAME)
     return true;
 
   if (xp.has_extension()) {
@@ -62,8 +64,8 @@ bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
       return false;
     }
 
-    std::string raw =
-        licenser::Preprocessor::parse(license->header_to_string(), arg);
+    std::string raw = licenser::Preprocessor::parse(
+        hdr.empty() ? license->header_to_string() : hdr, arg);
 
     std::string header_ = licenser::comments::CommentBuilder::from_header(
         std::move(commenter), raw, multiline);
@@ -73,7 +75,8 @@ bool HeaderWriter::write(licenser::ApplicationArgs const& arg, bool multiline) {
 
     if (!new_writer.good()) {
       this->error_cause =
-          "licenser cannot create a new file. Do you have write permission here?";
+          "licenser cannot create a new file. Do you have write permission "
+          "here?";
       return false;
     }
 

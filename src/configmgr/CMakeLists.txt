@@ -6,6 +6,7 @@ add_library(configmgr
             src/configmgr/src/ConfigIgnore.cc
             src/configmgr/src/ConfigManager.cc
             src/configmgr/src/ConfigOnly.cc
+            src/configmgr/src/ConfigCustomHeader.cc
             src/configmgr/src/RecursiveFileIterator.cc)
 
 set_target_properties(configmgr PROPERTIES 

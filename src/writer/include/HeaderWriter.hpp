@@ -35,7 +35,7 @@ class HeaderWriter {
   HeaderWriter(std::string path);
   HeaderWriter(const HeaderWriter&) = delete;
   HeaderWriter& operator=(const HeaderWriter&) = delete;
-  bool write(licenser::ApplicationArgs const&, bool);
+  bool write(licenser::ApplicationArgs const&, std::string, bool);
 
   std::string get_error_cause() const noexcept;
   ~HeaderWriter();

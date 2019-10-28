@@ -1,22 +1,21 @@
 /*
-* Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
-*  
-* This file is part of Licenser.
-*  
-* Licenser is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*  
-* Licenser is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*  
-* You should have received a copy of the GNU General Public License
-* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
+ *
+ * This file is part of Licenser.
+ *
+ * Licenser is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Licenser is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "ConfigManager.hpp"
 
@@ -28,17 +27,25 @@ ConfigManager::ConfigManager(ConfigReader initial) {
     ignore_stack.push(initial.root_path());
   if (OnlyReader::exists(initial.root_path()))
     only_stack.push(initial.root_path());
+  if (CustomHeader::exists(initial.root_path()))
+    custom_header.push(CustomHeader::read(initial.root_path()));
 }
 
 void ConfigManager::enter_dir(std::string dir) {
   bool has_ignore = IgnoreReader::exists(dir);
   bool has_only = OnlyReader::exists(dir);
   bool has_config = ConfigReader::exists(dir);
+  bool has_header = CustomHeader::exists(dir);
 
   if (has_ignore)
     ignore_stack.push(dir);
   else if (!ignore_stack.empty())
     ignore_stack.push(ignore_stack.top());
+
+  if (has_header)
+    custom_header.push(CustomHeader::read(dir));
+  else if (!custom_header.empty())
+    custom_header.push(custom_header.top());
 
   if (has_only)
     only_stack.push(dir);
@@ -55,6 +62,7 @@ void ConfigManager::leave_dir() {
   if (!ignore_stack.empty()) ignore_stack.pop();
   if (!only_stack.empty()) only_stack.pop();
   if (!reader_stack.empty()) reader_stack.pop();
+  if (!custom_header.empty()) custom_header.pop();
 }
 
 ConfigReader ConfigManager::get_config() const {
@@ -76,4 +84,8 @@ std::optional<OnlyReader> ConfigManager::get_only() const noexcept {
   return ret;
 }
 
+std::string ConfigManager::get_custom_header() const noexcept {
+  if(!custom_header.empty()) return custom_header.top();
+  else return "";
+}
 }  // namespace licenser::configmgr

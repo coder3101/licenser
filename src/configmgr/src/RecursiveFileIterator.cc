@@ -1,22 +1,21 @@
 /*
-* Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
-*  
-* This file is part of Licenser.
-*  
-* Licenser is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*  
-* Licenser is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*  
-* You should have received a copy of the GNU General Public License
-* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
+ *
+ * This file is part of Licenser.
+ *
+ * Licenser is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Licenser is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "RecursiveFileIterator.hpp"
 
@@ -27,7 +26,7 @@ RecursiveFileIterator::RecursiveFileIterator(ConfigReader &reader)
     : reader(reader), manager(reader) {}
 std::size_t RecursiveFileIterator::iterate(
     std::function<void(std::string file_path,
-                       licenser::ApplicationArgs const &)>
+                       licenser::ApplicationArgs const &, std::string)>
         on_touched) {
   std::size_t touch_count = 0;
   auto Path = std::filesystem::path(reader.root_path());
@@ -57,7 +56,8 @@ std::size_t RecursiveFileIterator::iterate(
                   fiterator->path().string())) { /* Nothing Doing */
           } else {
             touch_count++;
-            on_touched(fiterator->path().string(), manager.get_config().get());
+            on_touched(fiterator->path().string(), manager.get_config().get(),
+                       manager.get_custom_header());
           }
         }
       }
@@ -65,15 +65,17 @@ std::size_t RecursiveFileIterator::iterate(
       else if (maybe_ignore.has_value()) {
         if (!maybe_ignore.value().should_ignore(fiterator->path().string())) {
           touch_count++;
-          on_touched(fiterator->path().string(), manager.get_config().get());
+          on_touched(fiterator->path().string(), manager.get_config().get(),
+                     manager.get_custom_header());
         }
-      } 
-      
+      }
+
       else {
-        on_touched(fiterator->path().string(), manager.get_config().get());
+        on_touched(fiterator->path().string(), manager.get_config().get(),
+                   manager.get_custom_header());
         touch_count++;
       }
-      
+
       last_depth = fiterator.depth();
     }
     fiterator++;

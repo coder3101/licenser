@@ -29,6 +29,7 @@
 #include "ConfigIgnore.hpp"
 #include "ConfigOnly.hpp"
 #include "ConfigReader.hpp"
+#include "ConfigCustomHeader.hpp"
 
 namespace licenser::configmgr {
 class ConfigManager {
@@ -41,10 +42,12 @@ class ConfigManager {
   ConfigReader get_config() const;
   std::optional<IgnoreReader> get_ignore() const noexcept;
   std::optional<OnlyReader> get_only() const noexcept;
+  std::string get_custom_header() const noexcept;
 
  private:
   std::stack<ConfigReader> reader_stack;
   std::stack<IgnoreReader> ignore_stack;
   std::stack<OnlyReader> only_stack;
+  std::stack<std::string> custom_header;
 };
 }  // namespace licenser::configmgr

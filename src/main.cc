@@ -1,22 +1,21 @@
 /*
-* Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
-*  
-* This file is part of Licenser.
-*  
-* Licenser is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*  
-* Licenser is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*  
-* You should have received a copy of the GNU General Public License
-* along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ * Copyright (C) 2019- Mohammad Ashar Khan ashar786khan@gmail.com
+ *
+ * This file is part of Licenser.
+ *
+ * Licenser is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Licenser is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Licenser.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1
@@ -174,20 +173,21 @@ int main(int argc, const char** argv) {
 
   // ***************************** ON UPDATE **********************************
   else if (args.commandLineArgs.update) {
-    if(!licenser::configmgr::ConfigReader::exists()){
-      std::cout<<"Error, this directory does not have .licenserrc file\n";
+    if (!licenser::configmgr::ConfigReader::exists()) {
+      std::cout << "Error, this directory does not have .licenserrc file\n";
       exit(1);
     }
     licenser::configmgr::ConfigReader reader;
     licenser::configmgr::RecursiveFileIterator iter(reader);
 
     int count = 0;
-    auto total_touch = iter.iterate([args, &count](auto a, auto b) {
-      licenser::writer::HeaderWriter h(a);
-      if (!h.write(b, args.commandLineArgs.prefer_multiline))
-        count++, std::cout << "[WARNING] Skipped " << a << " because "
-                           << h.get_error_cause() << std::endl;
-    });
+    auto total_touch =
+        iter.iterate([args, &count](auto pth, auto config, auto cust_hdr) {
+          licenser::writer::HeaderWriter h(pth);
+          if (!h.write(config, cust_hdr, args.commandLineArgs.prefer_multiline))
+            count++, std::cout << "[WARNING] Skipped " << pth << " because "
+                               << h.get_error_cause() << std::endl;
+        });
 
     std::cout << "Update Affected " << total_touch - count << " Files\n";
   }
