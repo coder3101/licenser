@@ -12,16 +12,15 @@
 
 
 #pragma once
-
-#include <csignal>
+#include <array>
+#include <cstdio>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
 
-namespace licenser {
-namespace {
-void on_sigint(int signal) {
-  std::cout << "\nInterrupt signal (" << signal << ") received\n";
-  exit(signal);
-}
-}  // namespace
-void RegisterInterruptSignalHandler() { signal(SIGINT, on_sigint); }
-}  // namespace licenser
+namespace licenser::configmgr {
+struct CommandRunner {
+  static std::string exec(std::string s);
+};
+}  // namespace licenser::configmgr

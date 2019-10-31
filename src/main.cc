@@ -1,18 +1,19 @@
 /*
- * Copyright (c) 2019 Mohammad Ashar Khan <ashar786khan@gmail.com>
- *
- * Licenser is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Enjoy the software but don't blame me if you blow up things !!
- *
- */
+* Copyright (c) 2019 Mohammad Ashar Khan <ashar786khan@gmail.com>
+* 
+* Licenser is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* Enjoy the software but don't blame me if you blow up things !!
+* 
+*/
+
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 2
-#define VERSION_PATCH 0
+#define VERSION_PATCH 5
 
 #include <iomanip>
 #include <iostream>
@@ -21,6 +22,7 @@
 #include "CLI.hpp"
 #include "CommandLineArgs.hpp"
 #include "CommentBuilder.hpp"
+#include "ConfigCommand.hpp"
 #include "ConfigReader.hpp"
 #include "ConfigWriter.hpp"
 #include "Extensions.hpp"
@@ -61,22 +63,44 @@ int main(int argc, const char** argv) {
                 << " already exists\n";
       exit(1);
     } else {
+      std::string email_git = licenser::configmgr::CommandRunner::exec(
+          "git config --get user.email");
+      std::string name_git = licenser::configmgr::CommandRunner::exec(
+          "git config --get user.name");
+
       std::cout
           << "Creating a Configuration File in Current Working Directory\n";
 
-      if (args.author.empty()) {
+      if (args.author.empty() && name_git.empty()) {
         while (args.author.empty()) {
           std::cout << "Who is the author (required) : ";
           std::getline(std::cin, args.author);
           if (args.author.empty())
             std::cout << "Author name cannot be empty. Try again\n";
         }
+      } else {
+        std::cout << "Who is the author (required) [Default: " << name_git
+                  << " ] : ";
+        std::getline(std::cin, args.author);
+        if (args.author.empty()) {
+          args.author = name_git;
+          std::cout << "Author set to : " << args.author << "\n";
+        }
       }
 
       if (args.email.empty()) {
         do {
-          std::cout << "An email of the author (optional) : ";
+          std::cout << "An email of the author (optional) [Default: "
+                    << email_git << " ] [s to skip] : ";
           std::getline(std::cin, args.email);
+          if (args.email == "s" || args.email == "S") {
+            args.email.clear();
+            break;
+          } else if (args.email.empty()) {
+            args.email = email_git;
+            std::cout << "Email set to : " << args.email << "\n";
+            break;
+          }
           if (!licenser::lambdas::is_valid_email(args.email)) {
             std::cout
                 << "Not a valid email address. Try again or leave empty\n";
