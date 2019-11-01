@@ -1,6 +1,6 @@
 # Licenser : A License Manager CLI
 
-![](https://img.shields.io/badge/C%2B%2B-17-yellowgreen) ![](https://img.shields.io/badge/version-0.25-green")![](https://img.shields.io/badge/license-GPLv3-blue) ![](https://img.shields.io/badge/application-cli-brightgreen) ![](https://img.shields.io/badge/platform-linux%20%7C%20macOs%20%7C%20windows-green)
+![](https://img.shields.io/badge/C%2B%2B-17-yellowgreen) ![](https://img.shields.io/badge/version-0.50-green")![](https://img.shields.io/badge/license-GPLv3-blue) ![](https://img.shields.io/badge/application-cli-brightgreen) ![](https://img.shields.io/badge/platform-linux%20%7C%20macOs%20%7C%20windows-green)
 
 Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quickly add, update and validate the license headers in your source files and LICENSE file.
 
@@ -19,7 +19,7 @@ Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quic
 
 
 ## Usage
-> type licenser --help for the time being
+> type licenser help for the time being
 
 ## Installation
 - [Arch Linux (AUR)](https://aur.archlinux.org/packages/licenser/)
