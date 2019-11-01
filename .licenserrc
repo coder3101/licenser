@@ -1,5 +1,5 @@
 # NOTES FOR END-USER
-# You can manually edit this file to apply changes using --update
+# You can manually edit this file to apply changes using licenser update
 # To put a comment use a # before the begining of a line.
 # If any value contains space like author name, project name
 # Please do not put " around the those values
@@ -24,9 +24,9 @@ email=ashar786khan@gmail.com
 # This is case-insensitive and shortname spaces are replaced with "_"
 # Like Creative Commons Version 3 shortname is CC By 3, Here it will be CC_BY_3
 # Before changing this value please ensure that updated value is indeed a license shortname
-# A list of all the shortnames can be retrieved by running licenser --show_licenses
+# A list of all the shortnames can be retrieved by running licenser list-license
 # ========================================================
-license=GPLv3
+license=gplv3
 # ========================================================
 
 # This value tells that the project is still under active and 

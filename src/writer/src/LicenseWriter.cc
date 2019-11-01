@@ -16,9 +16,9 @@
 #include "PreProcessor.hpp"
 
 namespace licenser::writer {
-LicenseWriter::LicenseWriter(std::string name)
+LicenseWriter::LicenseWriter(std::string name, std::string pth)
     : name(name) {
-  auto path = std::filesystem::path(cwd());
+  auto path = std::filesystem::path(pth);
   path.append(name);
   this->stream = std::ofstream(path.string());
   if (!this->stream.is_open())
@@ -33,10 +33,6 @@ void LicenseWriter::write(ApplicationArgs const& args) {
   auto license_enum = ::licenser::licenses::License::enum_from_name(args.license);
   auto license_ptr = ::licenser::licenses::License::make_license(license_enum);
   this->stream << Preprocessor::parse(license_ptr->body_to_string(), args);
-}
-
-std::string LicenseWriter::cwd() const {
-  return std::filesystem::current_path().string();
 }
 
 LicenseWriter::~LicenseWriter() {

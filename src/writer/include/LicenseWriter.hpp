@@ -22,15 +22,13 @@
 namespace licenser::writer {
 class LicenseWriter {
  public:
-  LicenseWriter(std::string name = "LICENSE");
+  LicenseWriter(std::string name = "LICENSE", std::string = ".");
 
   LicenseWriter(const LicenseWriter&) = delete;
 
   LicenseWriter& operator=(const LicenseWriter&) = delete;
 
   void write(ApplicationArgs const&);
-
-  std::string cwd() const;
 
   std::string get_name() const noexcept;
 

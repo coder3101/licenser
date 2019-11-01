@@ -60,7 +60,7 @@ endif()
 
 # Header only Libraries
 # Lyra used by licenser
-include_directories(third_party/Lyra/include)
+include_directories(third_party/clipp/include)
 # Catch2 Used only upon Testing
 if (ENABLE_TESTS)
   include_directories(third_party/Catch2/include)

@@ -31,7 +31,7 @@ bool ConfigWriter::write(ApplicationArgs app, std::string path) {
   stream << "# NOTES FOR END-USER\n";
 
   stream << "# You can manually edit this file to apply changes using "
-            "--update\n";
+            "licenser update\n";
   stream << "# To put a comment use a # before the begining of a line.\n";
   stream << "# If any value contains space like author name, project name\n";
   stream << "# Please do not put \" around the those values\n\n";
@@ -62,7 +62,7 @@ bool ConfigWriter::write(ApplicationArgs app, std::string path) {
   stream << "# Before changing this value please ensure that updated value is "
             "indeed a license shortname\n";
   stream << "# A list of all the shortnames can be retrieved by running "
-            "licenser --show_licenses\n";
+            "licenser list-license\n";
   stream << LICENSER_RC_DECORATOR;  
   stream << "license=" << app.license << '\n';
   stream << LICENSER_RC_DECORATOR;

@@ -13,12 +13,17 @@
 
 #pragma once
 #include <chrono>
+#include <filesystem>
 #include <string>
+#include <iostream>
+#include "ConfigWriter.hpp"
+
 #include "License.hpp"
 namespace licenser {
 namespace lambdas {
 auto is_valid_email = [](std::string s) {
   if (s.empty()) return true;
+  //Todo (coder3101): check for multiple comma separated email also.
   auto at_idx = s.find('@');
   auto last_dot = s.find_last_of('.');
   return at_idx != std::string::npos && last_dot != std::string::npos &&
@@ -39,7 +44,12 @@ auto is_valid_license = [](std::string s) {
 };
 
 auto is_non_empty = [](std::string s) { return !s.empty(); };
-}  // namespace lamdas
+auto is_exist = [](std::string const &s) {
+  // std::cout<<"checking "<<s<<"\n";
+  std::filesystem::path p(s);
+  return std::filesystem::exists(p) && std::filesystem::is_directory(p);
+};
+}  // namespace lambdas
 
 unsigned int this_year() {
   auto cur_time = std::chrono::system_clock::now();

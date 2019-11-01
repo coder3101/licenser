@@ -19,18 +19,9 @@ struct ApplicationArgs {
 
   struct CommandLineArgs {
     CommandLineArgs()
-        : showHelp(false),
-          initiate(false),
-          update(false),
-          showVersion(false),
-          show_licenses(false),
-          prefer_multiline(false) {}
-    bool showHelp;
-    bool initiate;
-    bool update;
-    bool showVersion;
-    bool show_licenses;
+        : prefer_multiline(false) {}
     bool prefer_multiline;
+    std::string path;
   };
   bool ongoing_project;
   std::string author;
