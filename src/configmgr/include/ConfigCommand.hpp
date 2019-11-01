@@ -12,6 +12,7 @@
 
 
 #pragma once
+#include <algorithm>
 #include <array>
 #include <cstdio>
 #include <iostream>
