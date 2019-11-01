@@ -1,3 +1,6 @@
 [submodule "third_party/Lyra"]
 	path = third_party/Lyra
 	url = https://github.com/bfgroup/Lyra
+[submodule "third_party/clipp"]
+	path = third_party/clipp
+	url = https://github.com/muellan/clipp.git
