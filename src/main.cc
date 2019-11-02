@@ -188,8 +188,10 @@ int main(int argc, char* argv[]) {
         std::cout << "Update Affected " << total_touch - count << " Files\n";
         return 0;
       }
-      case licenser::SubCommandMode::check:
-        break;
+      case licenser::SubCommandMode::check:{
+        std::cout<<"Coming soon...\n";
+        return 0;
+      }
       case licenser::SubCommandMode::listLicense: {
         using namespace licenser::licenses;
         std::cout << std::setw(30) << std::left;
