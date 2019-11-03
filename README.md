@@ -1,6 +1,6 @@
 # Licenser : A License Manager CLI
 
-![](https://img.shields.io/badge/C%2B%2B-17-yellowgreen) ![](https://img.shields.io/badge/version-0.50-green")![](https://img.shields.io/badge/license-GPLv3-blue) ![](https://img.shields.io/badge/application-cli-brightgreen) ![](https://img.shields.io/badge/platform-linux%20%7C%20macOs%20%7C%20windows-green)
+![](https://img.shields.io/badge/C%2B%2B-17-yellowgreen) ![](https://img.shields.io/badge/version-0.50-green") ![](https://img.shields.io/badge/license-GPLv3-blue) ![](https://img.shields.io/badge/application-cli-brightgreen) ![](https://img.shields.io/badge/platform-linux%20%7C%20macOs%20%7C%20windows-green) [![Join the chat at https://gitter.im/licenser-cli/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/licenser-cli/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quickly add, update and validate the license headers in your source files and LICENSE file.
 
@@ -25,15 +25,14 @@ Licenser is a free, Simple, Cross-Platform license manager CLI tool. It can quic
 
 
 ## Usage
-> type licenser help for the time being
+First-time? Read [**Quickstart**](https://github.com/coder3101/licenser/wiki/Quickstart)
+
+Complete documentation could be found at [Licenser-wiki](https://github.com/coder3101/licenser/wiki)
+
 
 ## Installation
 - [Arch Linux (AUR)](https://aur.archlinux.org/packages/licenser/)
-- Snap (Coming Soon)
-- Flatpack (Coming soon)
-- AppImage (Coming soon)
 - [Window's Installer](https://github.com/coder3101/licenser/releases)
-- Window's choco package (Coming Soon)
 
 
 ## License
