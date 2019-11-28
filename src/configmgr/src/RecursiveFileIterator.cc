@@ -76,4 +76,60 @@ std::size_t RecursiveFileIterator::iterate(
   }
   return touch_count;
 }
+
+std::size_t RecursiveFileIterator::count(){
+  std::size_t touch_count = 0;
+  auto Path = std::filesystem::path(reader.root_path());
+  auto end = std::filesystem::recursive_directory_iterator();
+  auto fiterator = std::filesystem::recursive_directory_iterator(Path);
+  int last_depth = fiterator.depth();
+
+  while (fiterator != end) {
+    while (last_depth > fiterator.depth()) {
+      manager.leave_dir();
+      last_depth--;
+    }
+    if (fiterator->is_directory()) {
+      manager.enter_dir(fiterator->path().string());
+      last_depth = fiterator.depth();
+      fiterator++;
+      continue;
+    }
+    if (fiterator->is_regular_file()) {
+      auto maybe_ignore = manager.get_ignore();
+      auto maybe_touch = manager.get_only();
+
+      if (maybe_touch.has_value()) {
+        if (maybe_touch.value().should_touch(fiterator->path().string())) {
+          if (maybe_ignore.has_value() &&
+              maybe_ignore->should_ignore(
+                  fiterator->path().string())) { /* Nothing Doing */
+          } else {
+            touch_count++;
+          }
+        }
+      }
+
+      else if (maybe_ignore.has_value()) {
+        if (!maybe_ignore.value().should_ignore(fiterator->path().string())) {
+          touch_count++;
+        }
+      }
+
+      else {
+        touch_count++;
+      }
+
+      last_depth = fiterator.depth();
+    }
+    fiterator++;
+  }
+  reset();
+  return touch_count;        
+}
+
+void RecursiveFileIterator::reset(){
+	manager.reset();
+}
+
 }  // namespace licenser::configmgr

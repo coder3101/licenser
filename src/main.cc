@@ -13,7 +13,7 @@
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 5
-#define VERSION_PATCH 0
+#define VERSION_PATCH 2
 
 #include <iomanip>
 #include <iostream>
@@ -176,16 +176,24 @@ int main(int argc, char* argv[]) {
         ConfigReader reader(maybe_path);
         RecursiveFileIterator iter(reader);
 
-        int count = 0;
-        auto total_touch = iter.iterate([args, &count](auto pth, auto config,
-                                                       auto cust_hdr) {
+	auto total_touch_expected = iter.count();
+
+	int count = 0;
+        iter.iterate([args, &count, total_touch_expected](auto pth, auto config,
+                                              auto cust_hdr) {
           licenser::writer::HeaderWriter h(pth);
           if (!h.write(config, cust_hdr, args.commandLineArgs.prefer_multiline))
-            count++, std::cout << "[WARNING] Skipped " << pth << " because "
+            std::cout << "[WARNING] Skipped " << pth << " because "
                                << h.get_error_cause() << std::endl;
+	  else{
+	    std::cout<<"\rProgress: [ " <<count+1<<"/"<<total_touch_expected<<" ]";
+	    count++;
+	   }
+	    
           // TODO(coder3101): Maybe add a progress bar here
         });
-        std::cout << "Update Affected " << total_touch - count << " Files\n";
+	std::cout<<"\n";
+        //std::cout << "Update Affected " << total_touch - count << " Files\n";
         return 0;
       }
       case licenser::SubCommandMode::check:{

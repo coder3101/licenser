@@ -36,11 +36,13 @@ class ConfigManager {
   std::optional<IgnoreReader> get_ignore() const noexcept;
   std::optional<OnlyReader> get_only() const noexcept;
   std::string get_custom_header() const noexcept;
+  void reset() noexcept;
 
  private:
   std::stack<ConfigReader> reader_stack;
   std::stack<IgnoreReader> ignore_stack;
   std::stack<OnlyReader> only_stack;
   std::stack<std::string> custom_header;
+  ConfigReader initial; 
 };
 }  // namespace licenser::configmgr

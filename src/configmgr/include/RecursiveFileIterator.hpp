@@ -24,9 +24,11 @@ class RecursiveFileIterator {
 
   std::size_t iterate(
       std::function<void(std::string path, licenser::ApplicationArgs const &, std::string)>);
+  std::size_t count();
 
  private:
   ConfigReader &reader;
   ConfigManager manager;
+  void reset();
 };
 }  // namespace licenser::configmgr

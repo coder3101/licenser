@@ -14,7 +14,7 @@
 #include "ConfigManager.hpp"
 
 namespace licenser::configmgr {
-ConfigManager::ConfigManager(ConfigReader initial) {
+ConfigManager::ConfigManager(ConfigReader init): initial(init) {
   reader_stack.push(initial);
 
   if (IgnoreReader::exists(initial.root_path()))
@@ -23,6 +23,7 @@ ConfigManager::ConfigManager(ConfigReader initial) {
     only_stack.push(initial.root_path());
   if (CustomHeader::exists(initial.root_path()))
     custom_header.push(CustomHeader::read(initial.root_path()));
+
 }
 
 void ConfigManager::enter_dir(std::string dir) {
@@ -81,5 +82,23 @@ std::optional<OnlyReader> ConfigManager::get_only() const noexcept {
 std::string ConfigManager::get_custom_header() const noexcept {
   if(!custom_header.empty()) return custom_header.top();
   else return "";
+}
+
+void ConfigManager::reset() noexcept {
+
+  while(!reader_stack.empty()) reader_stack.pop();
+  while(!ignore_stack.empty()) ignore_stack.pop();
+  while(!only_stack.empty()) only_stack.pop();
+  while(!custom_header.empty()) custom_header.pop();
+  
+  reader_stack.push(initial);
+
+  if (IgnoreReader::exists(initial.root_path()))
+    ignore_stack.push(initial.root_path());
+  if (OnlyReader::exists(initial.root_path()))
+    only_stack.push(initial.root_path());
+  if (CustomHeader::exists(initial.root_path()))
+    custom_header.push(CustomHeader::read(initial.root_path()));
+	
 }
 }  // namespace licenser::configmgr
